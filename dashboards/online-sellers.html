@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online Puppy Sellers | Bailing Out Benji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F7FB; --ink:#0D1B3E; --text:#4B5364; --navy:#0D1B3E; --blue:#21409A; --cyan:#00B4D8; --cyan-deep:#21409A;
+  --coral:#B5533C; --amber:#C9A23A; --purple:#00B4D8; --green:#2E8B62;
+  --line:#E2E6EF; --muted:#667085; --white:#FFFFFF;
+  --shadow:0 1px 3px rgba(13,27,62,.08),0 1px 2px rgba(13,27,62,.04);
+  --c-active:#21409A; --c-state:#00B4D8; --c-cusda:#B5533C; --c-cstate:#C9A23A; --c-unlic:#8A93A6;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--text);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--cyan-deep)}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* header */
+header{background:var(--navy);color:#fff;padding:44px 0 92px}
+.draft{display:inline-flex;align-items:center;gap:8px;background:rgba(0,180,216,.14);color:#7FD8EC;border:1px solid rgba(0,180,216,.45);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:600;margin-bottom:20px}
+.draft::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan)}
+h1{font-size:clamp(30px,4.6vw,48px);line-height:1.08;letter-spacing:-.02em;margin:0 0 14px;font-weight:700;max-width:820px}
+.lede{color:#C3CCE0;font-size:18px;max-width:680px;margin:0}
+.asof{color:#93A0BD;font-size:14px;margin-top:18px}
+
+/* landscape bar: the hero */
+.landscape{background:var(--white);border-radius:16px;box-shadow:var(--shadow);padding:28px;margin-top:-64px;position:relative}
+.landscape h2{margin-top:0}
+.total{font-size:15px;color:var(--muted);margin:0 0 18px}
+.total strong{color:var(--ink);font-size:22px}
+.stack{display:flex;height:56px;border-radius:10px;overflow:hidden;gap:3px}
+.stack div{min-width:4px;transition:filter .15s}
+.stack div:hover{filter:brightness(1.08)}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-top:22px}
+.legend .item{border-left:4px solid;padding-left:12px}
+.legend .num{font-size:28px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.legend .lab{font-size:14px;color:var(--muted);line-height:1.35}
+
+section{margin:56px 0}
+h2{font-size:clamp(22px,2.8vw,30px);letter-spacing:-.015em;line-height:1.15;margin:0 0 10px}
+.intro{color:var(--muted);max-width:720px;margin:0 0 24px}
+.card{background:var(--white);border-radius:16px;box-shadow:var(--shadow);padding:24px}
+.note{font-size:14px;color:var(--muted);margin:14px 0 0;max-width:760px}
+
+/* map */
+.mapgrid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr);gap:24px;align-items:start}
+.metrics{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.metrics button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
+.metrics button[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tiles{display:grid;grid-template-columns:repeat(11,1fr);gap:4px}
+.tile{aspect-ratio:1;border:0;border-radius:6px;font:inherit;font-size:clamp(9px,1.25vw,13px);font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;padding:0}
+.tile small{font-weight:500;font-size:.85em;opacity:.85}
+.tile[aria-pressed="true"]{outline:3px solid var(--navy);outline-offset:1px}
+.scale{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:13px;color:var(--muted)}
+.scale .ramp{display:flex;flex:0 0 180px;height:10px;border-radius:5px;overflow:hidden}
+.scale .ramp span{flex:1}
+.panel h3{margin:0 0 4px;font-size:22px}
+.panel .sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+.panel dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:10px 16px;font-size:15px}
+.panel dt{color:var(--muted)}
+.panel dd{margin:0;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.panel .rule{grid-column:1/-1;border-top:1px solid var(--line);margin:4px 0}
+.metricnote{font-size:14px;color:var(--muted);margin:12px 0 0;min-height:1.5em}
+
+/* timeline */
+.chart{width:100%;height:auto;display:block}
+.chart text{font-family:inherit;fill:var(--muted);font-size:12px}
+.chart .bar{fill:#C3D0EE}
+.chart .bar.conf{fill:var(--coral)}
+.chart g.yr:hover .bar:not(.conf),.chart g.yr:focus .bar:not(.conf){fill:#93A9DE}
+.chart g.yr{outline:none}
+.readout{font-size:15px;min-height:1.6em;margin:10px 0 0}
+.keys{display:flex;flex-wrap:wrap;gap:18px;font-size:14px;color:var(--muted);margin-bottom:10px}
+.keys span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--k)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:20px}
+.fact{background:var(--paper);border-radius:12px;padding:16px}
+.fact b{display:block;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.fact span{font-size:14px;color:var(--muted)}
+
+/* split bars */
+.split{margin:0 0 26px}
+.split:last-child{margin-bottom:0}
+.split h3{font-size:17px;margin:0 0 8px}
+.sbar{display:flex;height:34px;border-radius:8px;overflow:hidden}
+.sbar div{display:flex;align-items:center;padding:0 12px;color:#fff;font-weight:600;font-size:14px;white-space:nowrap}
+.slegend{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:14px;color:var(--muted);margin-top:8px}
+
+/* pipeline */
+.prow{display:grid;grid-template-columns:120px 1fr 54px;gap:12px;align-items:center;margin:8px 0;font-size:14px}
+.prow .pb{display:flex;height:20px;border-radius:5px;overflow:hidden;background:var(--paper)}
+.prow .n{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* table */
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:600;color:var(--muted);position:sticky;top:0;background:var(--white)}
+th button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+th button[aria-sort]::after{content:" ▾"}
+th button[aria-sort="ascending"]::after{content:" ▴"}
+tbody tr:hover{background:#F6F9FC}
+#search{font:inherit;font-size:15px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;width:min(280px,100%);margin-bottom:14px}
+
+/* methodology */
+.method{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px 32px;font-size:15px}
+.method h3{font-size:16px;margin:0 0 4px}
+.method p{margin:0;color:#3A4A5E}
+.caveat{border-left:3px solid var(--coral);padding-left:12px;color:#3A4A5E}
+h1,h2,h3,.panel h3,.legend .num,.fact b,.total strong,.prow .n,.tot{color:var(--ink)}
+h1,h2{font-family:'Merriweather',Georgia,'Times New Roman',serif;font-weight:900;letter-spacing:-.01em}
+header h1{color:#fff}
+footer{color:var(--muted);font-size:14px;padding:24px 0 48px}
+
+@media (max-width:820px){
+  .mapgrid{grid-template-columns:1fr}
+  .tiles{gap:3px}
+  .tile small{display:none}
+  .prow{grid-template-columns:90px 1fr 46px}
+  .landscape{padding:20px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.def{border-radius:12px;padding:20px;background:var(--paper);border-top:4px solid}
+.def h3{margin:0 0 6px;font-size:18px}
+.def p{margin:0;color:#3A4A5E;font-size:15px}
+.def .who{margin-top:10px;font-size:14px;color:var(--muted)}
+.siterow{display:grid;grid-template-columns:170px 1fr 70px;gap:14px;align-items:center;margin:10px 0}
+.siterow .nm{font-weight:600;font-size:15px;line-height:1.2}
+.siterow .nm small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.siterow .bar{display:flex;height:30px;border-radius:7px;overflow:hidden}
+.siterow .bar div{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden}
+.siterow .tot{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.grouplab{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:22px 0 4px}
+.grouplab:first-of-type{margin-top:4px}
+.review{border:2px dashed #93A9DE;background:#FBFCFE}
+.review .tag{display:inline-block;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#3456AE;background:#E6ECF8;border-radius:999px;padding:4px 10px}
+.pipe{display:grid;grid-template-columns:150px 1fr 90px;gap:12px;align-items:center;margin:8px 0;font-size:14px}
+.pipe .pb{height:26px;border-radius:6px;background:var(--paper);overflow:hidden}
+.pipe .pb div{height:100%}
+.hatch{background:repeating-linear-gradient(135deg,#93A9DE 0 6px,#C3D0EE 6px 12px)}
+@media (max-width:820px){.pipe{grid-template-columns:100px 1fr 70px}}
+select{font:inherit;font-size:15px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--white);color:var(--ink);margin-bottom:16px}
+.matrix td,.matrix th{text-align:center}
+.matrix td:first-child,.matrix th:first-child{text-align:left}
+.matrix td.self{background:var(--paper);color:var(--muted)}
+@media (max-width:820px){.siterow{grid-template-columns:110px 1fr 52px;gap:10px}.siterow .bar div{font-size:0}}
+</style>
+<script>if(window.self!==window.top)document.documentElement.classList.add("embedded")</script>
+<style>.embedded header h1,.embedded header .lede{display:none}</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="draft">Preview: license audit in progress, figures will change</div>
+    <h1>Who’s selling puppies online?</h1>
+    <p class="lede">A look at the breeders and brokers BOB has fully audited so far on the seven largest puppy websites in our research: how they are licensed, and where they are based.</p>
+    <p class="asof">Sellers documented 2022 to 2026 · Data as of <span id="asof">November 4, 2026</span> · Seller information shown as totals only</p>
+  </div>
+</header>
+<main class="wrap">
+  <div class="landscape">
+    <h2>Two ways puppies are sold online</h2>
+    <div class="defs">
+      <div class="def" style="border-color:var(--blue)"><h3>Online marketplace</h3><p>A website where breeders list their own puppies. The breeder handles the sale directly with the buyer, including payment and pickup or shipping.</p><p class="who">In this analysis: Puppies.com, GoodDog, AKC Marketplace, Greenfield Puppies, Lancaster Puppies</p></div>
+      <div class="def" style="border-color:var(--cyan)"><h3>Online broker</h3><p>A third-party company that handles the sale for the breeder. The buyer pays the broker, and the broker arranges delivery, so buyers usually never deal with the breeder.</p><p class="who">In this analysis: PuppySpot, Pawrade</p></div>
+    </div>
+  </div>
+
+  <section>
+    <h2>The big picture</h2>
+    <p class="intro">BOB tracks 25 puppy websites. These seven are by far the largest, each with at least 250 audited sellers.</p>
+    <p class="note caveat" style="margin:0 0 24px;max-width:720px">These numbers are not a count of everyone selling puppies online. We estimate there are more than 100,000 online sellers, and we are auditing them now. This page includes only the sellers we have fully audited and can report on, so it shows patterns among those sellers. The numbers will grow as our audit continues.</p>
+    <div class="card">
+      <div class="facts" id="facts"></div>
+      <div class="stack" id="stack" role="img"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How sellers are licensed, site by site</h2>
+    <p class="intro">Each bar shows the license status of the sellers BOB has audited on that site. Hover over a segment for its count.</p>
+    <div class="card">
+      <div class="slegend" id="mixlegend" style="margin:0 0 6px"></div>
+      <div id="sites"></div>
+      <p class="note">“No license found” means BOB found no USDA or state license on record. Breeders with four or fewer breeding females are exempt from USDA licensing, so this group can include small breeders who are not required to hold a license.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Where sellers are based</h2>
+    <p class="intro">Each site draws from a different part of the country. Choose a site to see the home states of its sellers.</p>
+    <div class="card">
+      <label for="sitepick" style="position:absolute;left:-9999px">Choose a site</label>
+      <select id="sitepick"></select>
+      <div id="staterows"></div>
+      <p class="note" id="statenote"></p>
+    </div>
+  </section>
+
+  <section>
+    <h2>One seller, many sites</h2>
+    <p class="intro">Many sellers list on more than one site. The table shows how many sellers each pair of sites has in common.</p>
+    <div class="card">
+      <div class="facts" id="multifacts"></div>
+      <div class="tablewrap"><table class="matrix" id="matrix"></table></div>
+    </div>
+  </section>
+
+  <section id="audit">
+    <h2>Audit in progress</h2>
+    <p class="intro">Everything above comes from sellers we have fully audited. This section shows the much larger set of online profiles we are still working through, and the warning signs sellers post about themselves.</p>
+    <div class="card review">
+      <span class="tag">Under review · not yet verified</span>
+      <h3 style="font-size:16px;margin:14px 0 10px">Audited so far vs. still under review</h3>
+      <div id="pipe"></div>
+      <p class="note" id="pipenote"></p>
+      <h3 style="font-size:16px;margin:26px 0 10px">Warning signs on GoodDog profiles</h3>
+      <div class="facts" id="signs"></div>
+      <p class="note">“Warning signs” are based on what sellers post on their own profiles. In general, breeders with more than four breeding females who sell puppies sight unseen need a USDA license, and many states license breeders above a set number of breeding females. Some of these sellers may already hold a license we have not yet matched, so these are not counts of unlicensed breeders.</p>
+      <h3 style="font-size:16px;margin:26px 0 10px">By state</h3>
+      <label for="auditpick" style="position:absolute;left:-9999px">Choose a state</label>
+      <select id="auditpick"></select>
+      <div class="facts" id="auditstate" style="margin:0"></div>
+    </div>
+  </section>
+  <section>
+    <h2>How we counted</h2>
+    <div class="card method">
+      <div><h3>Which sites</h3><p>BOB tracks 25 puppy websites. This page covers the seven with at least 250 documented sellers. The next largest site has about 50.</p></div>
+      <div><h3>Who counts as a seller</h3><p>A breeder or broker BOB documented selling on the site in any year from 2022 to 2026, counted once per site. We estimate there are more than 100,000 online sellers and are auditing them now. This page includes only sellers we have fully audited, so the numbers show patterns among audited sellers, not the total number of people selling online.</p></div>
+      <div><h3>License status</h3><p>Each seller’s current status in BOB’s database: active USDA license, state license only, a USDA or state license that has ended, or no license found. A few records with unclear status are grouped as “Other.”</p></div>
+      <div><h3>Why there are no growth trends</h3><p>BOB began documenting some sites, such as AKC Marketplace and Greenfield Puppies, in 2025. Year-to-year changes would mostly reflect when research started, so this page reports totals instead.</p></div>
+      <div><h3>Audit in progress</h3><p>Profiles under review come from BOB’s case-building database (Puppies.com and AKC Marketplace) and a state-by-state review of GoodDog breeder profiles. They have not been verified or matched to license records yet, and one seller can appear on more than one site, so they count profiles, not people.</p></div>
+      <div><h3>Totals only</h3><p>This page names the websites, which are businesses, but reports sellers only as totals. Counts from 1 to 4 are shown as “&lt;5”.</p></div>
+    </div>
+  </section>
+</main>
+<footer><div class="wrap">Bailing Out Benji · Data from BOB’s research database of breeders, brokers and online sellers.</div></footer>
+<script>
+(async function(){let D={"sites":[{"name":"Puppies.com","type":"market","total":1707,"mix":{"nolic":736,"state":539,"active":306,"cusda":71,"cstate":48,"other":7},"states":[["Missouri",244],["Texas",183],["Tennessee",151],["Kentucky",145],["Iowa",108],["Georgia",79],["Wisconsin",70],["Illinois",64],["Oklahoma",58],["Kansas",58],["Pennsylvania",55],["Indiana",54],["Ohio",51],["California",49],["New York",43],["Nebraska",41],["Colorado",39],["Maryland",25],["Minnesota",21],["Montana",19],["Utah",17],["Arkansas",17],["Maine",16],["Wyoming",16],["South Carolina",14],["Delaware",11],["Florida",11],["Rhode Island",8],["North Carolina",6],["South Dakota",6],["Vermont",6],["Louisiana",4],["Arizona",3],["West Virginia",3],["Alabama",3],["New Hampshire",1],["Washington",1],["Massachusetts",1],["Mississippi",1],["Connecticut",1],["Alaska",1],["Idaho",1],["Nevada",1],["North Dakota",1]],"nstates":44},{"name":"GoodDog","type":"market","total":705,"mix":{"nolic":237,"cstate":47,"state":366,"active":40,"cusda":14,"other":1},"states":[["Georgia",135],["Iowa",74],["Texas",71],["Missouri",66],["Nebraska",37],["Wisconsin",36],["Tennessee",34],["Pennsylvania",30],["Kansas",23],["Kentucky",19],["Illinois",18],["Colorado",18],["Utah",17],["California",16],["Oklahoma",15],["Minnesota",11],["New York",10],["Indiana",9],["Alabama",7],["Montana",7],["Arkansas",7],["Rhode Island",6],["Delaware",6],["Florida",5],["Maryland",4],["Wyoming",3],["Oregon",3],["Maine",3],["West Virginia",3],["North Carolina",2],["Vermont",2],["South Dakota",1],["Arizona",1],["South Carolina",1],["Alaska",1],["Ohio",1],["Michigan",1],["Virginia",1],["Nevada",1]],"nstates":39},{"name":"AKC Marketplace","type":"market","total":630,"mix":{"state":332,"active":109,"nolic":135,"cstate":24,"cusda":30},"states":[["Missouri",93],["Pennsylvania",74],["Georgia",57],["Indiana",45],["Iowa",44],["Texas",43],["Illinois",36],["Wisconsin",27],["Kansas",26],["Colorado",25],["Tennessee",23],["Nebraska",23],["New York",13],["Kentucky",13],["Oklahoma",10],["Utah",9],["Arizona",9],["California",8],["Arkansas",7],["Maryland",7],["Ohio",6],["Wyoming",4],["Minnesota",4],["Maine",3],["Florida",3],["North Carolina",2],["Alabama",2],["Montana",2],["Louisiana",2],["Michigan",2],["Delaware",2],["Vermont",1],["Alaska",1],["Washington",1],["West Virginia",1],["South Dakota",1],["South Carolina",1]],"nstates":37},{"name":"PuppySpot","type":"broker","total":534,"mix":{"active":244,"state":16,"nolic":247,"cusda":27},"states":[["Indiana",179],["Missouri",95],["Ohio",50],["Texas",29],["Florida",28],["California",17],["Oklahoma",14],["Arkansas",14],["Kansas",9],["Iowa",8],["Alabama",8],["Illinois",7],["Utah",7],["Georgia",5],["Kentucky",5],["Michigan",5],["Tennessee",5],["South Dakota",5],["Pennsylvania",4],["Maryland",4],["Idaho",3],["New Mexico",3],["Wisconsin",3],["Louisiana",3],["Arizona",3],["Minnesota",2],["New York",2],["Nevada",2],["Mississippi",2],["Washington",2],["West Virginia",2],["New Jersey",2],["Oregon",2],["North Carolina",1],["South Carolina",1],["Colorado",1],["Virginia",1],["North Dakota",1]],"nstates":38},{"name":"Greenfield Puppies","type":"market","total":462,"mix":{"state":348,"nolic":49,"cusda":5,"cstate":28,"active":31,"other":1},"states":[["Pennsylvania",396],["Ohio",38],["New York",13],["Indiana",3],["Iowa",3],["Kentucky",2],["Illinois",2],["Tennessee",1],["Connecticut",1],["Missouri",1],["Maryland",1],["Wisconsin",1]],"nstates":12},{"name":"Lancaster Puppies","type":"market","total":449,"mix":{"state":254,"nolic":88,"active":60,"cusda":22,"cstate":24,"other":1},"states":[["Pennsylvania",193],["Iowa",30],["Ohio",29],["Indiana",27],["New York",21],["Missouri",20],["Texas",18],["Alabama",14],["Georgia",13],["Wisconsin",13],["Illinois",12],["Tennessee",12],["Kentucky",10],["Maryland",4],["Vermont",3],["Oklahoma",3],["Minnesota",3],["Nebraska",3],["Michigan",2],["Mississippi",2],["Delaware",2],["Arizona",2],["Montana",2],["Kansas",2],["Utah",2],["Arkansas",2],["North Carolina",1],["Colorado",1],["West Virginia",1],["South Dakota",1],["South Carolina",1]],"nstates":31},{"name":"Pawrade","type":"broker","total":256,"mix":{"nolic":118,"cusda":15,"active":107,"state":14,"cstate":1,"other":1},"states":[["Indiana",114],["Missouri",69],["Ohio",26],["Oklahoma",20],["Texas",7],["Kansas",5],["Arkansas",3],["Kentucky",2],["Tennessee",2],["California",2],["Iowa",2],["Georgia",1],["Illinois",1],["North Carolina",1],["South Carolina",1]],"nstates":15}],"overlap":{"Puppies.com":{"GoodDog":190,"AKC Marketplace":236,"PuppySpot":85,"Greenfield Puppies":32,"Lancaster Puppies":166,"Pawrade":67},"GoodDog":{"Puppies.com":190,"AKC Marketplace":103,"PuppySpot":14,"Greenfield Puppies":3,"Lancaster Puppies":24,"Pawrade":5},"AKC Marketplace":{"Puppies.com":236,"GoodDog":103,"PuppySpot":55,"Greenfield Puppies":31,"Lancaster Puppies":53,"Pawrade":30},"PuppySpot":{"Puppies.com":85,"GoodDog":14,"AKC Marketplace":55,"Greenfield Puppies":8,"Lancaster Puppies":19,"Pawrade":76},"Greenfield Puppies":{"Puppies.com":32,"GoodDog":3,"AKC Marketplace":31,"PuppySpot":8,"Lancaster Puppies":68,"Pawrade":6},"Lancaster Puppies":{"Puppies.com":166,"GoodDog":24,"AKC Marketplace":53,"PuppySpot":19,"Greenfield Puppies":68,"Pawrade":11},"Pawrade":{"Puppies.com":67,"GoodDog":5,"AKC Marketplace":30,"PuppySpot":76,"Greenfield Puppies":6,"Lancaster Puppies":11}},"unique":3663,"multi":{"1":2760,"2":749,"3":133,"4":21},"mixAll":{"nolic":1250,"state":1494,"active":606,"cusda":149,"cstate":155,"other":9},"nStatesAll":49,"topStatesAll":[["Pennsylvania",631],["Missouri",436],["Indiana",297],["Texas",265],["Georgia",244],["Iowa",205],["Tennessee",162],["Kentucky",156],["Ohio",140],["Wisconsin",119]],"tracked":25,"audit":{"gd":{"total":53462,"deliv":23808,"third":13145,"both":2764,"stth":3296},"cb":{"total":16000,"puppies":9234,"akc":6766,"xplat":628},"states":[{"st":"Alabama","gd":855,"third":278,"both":66,"stth":0,"lic":false,"cb":332},{"st":"Alaska","gd":164,"third":35,"both":6,"stth":0,"lic":false,"cb":20},{"st":"Arizona","gd":1370,"third":362,"both":78,"stth":0,"lic":false,"cb":345},{"st":"Arkansas","gd":826,"third":242,"both":49,"stth":0,"lic":false,"cb":256},{"st":"California","gd":3378,"third":916,"both":182,"stth":0,"lic":false,"cb":1465},{"st":"Colorado","gd":1165,"third":280,"both":51,"stth":823,"lic":true,"cb":350},{"st":"Connecticut","gd":261,"third":55,"both":11,"stth":103,"lic":true,"cb":87},{"st":"Delaware","gd":86,"third":14,"both":2,"stth":0,"lic":false,"cb":28},{"st":"District of Columbia","gd":6,"third":1,"both":0,"stth":0,"lic":false,"cb":6},{"st":"Florida","gd":3660,"third":883,"both":200,"stth":0,"lic":false,"cb":1130},{"st":"Georgia","gd":1459,"third":425,"both":94,"stth":676,"lic":true,"cb":662},{"st":"Hawaii","gd":116,"third":22,"both":4,"stth":0,"lic":false,"cb":16},{"st":"Idaho","gd":862,"third":277,"both":54,"stth":0,"lic":false,"cb":107},{"st":"Illinois","gd":1131,"third":231,"both":53,"stth":69,"lic":true,"cb":476},{"st":"Indiana","gd":1472,"third":335,"both":69,"stth":2,"lic":true,"cb":589},{"st":"Iowa","gd":2757,"third":270,"both":44,"stth":161,"lic":true,"cb":230},{"st":"Kansas","gd":514,"third":126,"both":26,"stth":126,"lic":true,"cb":194},{"st":"Kentucky","gd":1095,"third":304,"both":75,"stth":0,"lic":false,"cb":339},{"st":"Louisiana","gd":673,"third":138,"both":28,"stth":0,"lic":false,"cb":148},{"st":"Maine","gd":194,"third":41,"both":9,"stth":22,"lic":true,"cb":39},{"st":"Maryland","gd":436,"third":123,"both":25,"stth":0,"lic":false,"cb":173},{"st":"Massachusetts","gd":1009,"third":97,"both":22,"stth":0,"lic":false,"cb":129},{"st":"Michigan","gd":1860,"third":435,"both":96,"stth":5,"lic":true,"cb":454},{"st":"Minnesota","gd":881,"third":185,"both":44,"stth":12,"lic":true,"cb":247},{"st":"Mississippi","gd":546,"third":128,"both":36,"stth":0,"lic":false,"cb":156},{"st":"Missouri","gd":1285,"third":529,"both":116,"stth":442,"lic":true,"cb":776},{"st":"Montana","gd":423,"third":118,"both":22,"stth":0,"lic":false,"cb":59},{"st":"Nebraska","gd":373,"third":86,"both":20,"stth":44,"lic":true,"cb":82},{"st":"Nevada","gd":409,"third":102,"both":15,"stth":0,"lic":false,"cb":75},{"st":"New Hampshire","gd":258,"third":43,"both":8,"stth":2,"lic":true,"cb":52},{"st":"New Jersey","gd":533,"third":83,"both":16,"stth":0,"lic":false,"cb":153},{"st":"New Mexico","gd":189,"third":54,"both":8,"stth":0,"lic":false,"cb":77},{"st":"New York","gd":1304,"third":242,"both":57,"stth":8,"lic":true,"cb":403},{"st":"North Carolina","gd":2055,"third":533,"both":129,"stth":0,"lic":false,"cb":756},{"st":"North Dakota","gd":298,"third":39,"both":4,"stth":0,"lic":false,"cb":15},{"st":"Ohio","gd":1965,"third":496,"both":111,"stth":125,"lic":true,"cb":709},{"st":"Oklahoma","gd":1023,"third":351,"both":89,"stth":30,"lic":true,"cb":397},{"st":"Oregon","gd":1232,"third":323,"both":62,"stth":0,"lic":false,"cb":206},{"st":"Pennsylvania","gd":1207,"third":303,"both":57,"stth":2,"lic":true,"cb":591},{"st":"Rhode Island","gd":490,"third":45,"both":5,"stth":0,"lic":false,"cb":32},{"st":"South Carolina","gd":1104,"third":273,"both":55,"stth":0,"lic":false,"cb":418},{"st":"South Dakota","gd":170,"third":43,"both":11,"stth":0,"lic":false,"cb":47},{"st":"Tennessee","gd":1640,"third":437,"both":101,"stth":0,"lic":false,"cb":447},{"st":"Texas","gd":4915,"third":1293,"both":272,"stth":482,"lic":true,"cb":1289},{"st":"Utah","gd":1341,"third":497,"both":101,"stth":0,"lic":false,"cb":89},{"st":"Vermont","gd":119,"third":28,"both":8,"stth":0,"lic":false,"cb":30},{"st":"Virginia","gd":1054,"third":265,"both":52,"stth":0,"lic":false,"cb":459},{"st":"Washington","gd":2145,"third":466,"both":67,"stth":0,"lic":false,"cb":384},{"st":"West Virginia","gd":256,"third":91,"both":13,"stth":0,"lic":false,"cb":77},{"st":"Wisconsin","gd":687,"third":155,"both":28,"stth":162,"lic":true,"cb":310},{"st":"Wyoming","gd":196,"third":47,"both":13,"stth":0,"lic":false,"cb":33}]},"asOf":"November 6, 2026"};try{const r=await fetch('https://research836.github.io/bob-dashboards/data/online-sellers.json',{cache:'no-cache'});if(r.ok)D=await r.json();}catch(err){}
+try{const a=document.getElementById('asof');if(a&&D.asOf)a.textContent=D.asOf;}catch(err){}
+
+const fmt=n=>n.toLocaleString('en-US'), sup=n=>!n?'0':n<5?'<5':fmt(n), pct=(a,b)=>Math.round(100*a/b)+'%';
+const MIX=[{k:'active',l:'Active USDA license',c:'var(--c-active)'},{k:'state',l:'State license only',c:'var(--c-state)'},{k:'cusda',l:'USDA license ended',c:'var(--c-cusda)'},{k:'cstate',l:'State license ended',c:'var(--c-cstate)'},{k:'nolic',l:'No license found',c:'var(--c-unlic)'},{k:'other',l:'Other',c:'#C3CCD8'}];
+const g=(o,k)=>o[k]||0;
+const multi=Object.entries(D.multi).filter(([k])=>+k>1).reduce((a,[,v])=>a+v,0);
+document.getElementById('facts').innerHTML=`
+ <div class="fact"><b>${fmt(D.unique)}</b><span>breeders and brokers fully audited so far across these seven sites</span></div>
+ <div class="fact"><b>${pct(g(D.mixAll,'nolic'),D.unique)}</b><span>of audited sellers had no USDA or state license on record</span></div>
+ <div class="fact"><b>${D.nStatesAll}</b><span>states where these sellers are based</span></div>`;
+const st=document.getElementById('stack');
+st.setAttribute('aria-label',MIX.map(m=>`${m.l}: ${fmt(g(D.mixAll,m.k))}`).join('; '));
+MIX.forEach(m=>{ if(!g(D.mixAll,m.k)) return; const d=document.createElement('div'); d.style.flex=g(D.mixAll,m.k); d.style.background=m.c; d.title=`${m.l}: ${fmt(g(D.mixAll,m.k))}`; st.appendChild(d);
+  if(m.k!=='other') document.getElementById('legend').insertAdjacentHTML('beforeend',`<div class="item" style="border-color:${m.c}"><div class="num">${pct(g(D.mixAll,m.k),D.unique)}</div><div class="lab">${m.l} (${fmt(g(D.mixAll,m.k))})</div></div>`);});
+document.getElementById('mixlegend').innerHTML=MIX.map(m=>`<span><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:${m.c};vertical-align:-1px;margin-right:6px"></span>${m.l}</span>`).join('');
+const groups=[['market','Online marketplaces'],['broker','Online brokers']];
+document.getElementById('sites').innerHTML=groups.map(([t,lab])=>`<div class="grouplab">${lab}</div>`+D.sites.filter(s=>s.type===t).sort((a,b)=>b.total-a.total).map(s=>`
+  <div class="siterow"><div class="nm">${s.name}<small>${pct(g(s.mix,'nolic'),s.total)} no license found</small></div>
+  <div class="bar" role="img" aria-label="${s.name}: ${MIX.map(m=>`${m.l} ${sup(g(s.mix,m.k))}`).join(', ')}">${MIX.map(m=>{const n=g(s.mix,m.k); if(!n) return ''; const p=n/s.total; return `<div style="flex:${n};background:${m.c}" title="${m.l}: ${sup(n)} (${pct(n,s.total)})">${p>=.09?pct(n,s.total):''}</div>`}).join('')}</div>
+  <div class="tot">${fmt(s.total)}</div></div>`).join('')).join('');
+const pick=document.getElementById('sitepick');
+pick.innerHTML=D.sites.map((s,i)=>`<option value="${i}">${s.name}</option>`).join('');
+function drawStates(){
+  const s=D.sites[+pick.value], top=s.states.slice(0,10), max=top[0][1];
+  document.getElementById('staterows').innerHTML=top.map(([n,c])=>`<div class="prow"><span>${n}</span><div class="pb"><div style="width:${100*c/max}%;background:${s.type==='broker'?'var(--cyan)':'var(--blue)'}"></div></div><span class="n">${sup(c)}</span></div>`).join('');
+  const t3=top.slice(0,3).reduce((a,x)=>a+x[1],0);
+  document.getElementById('statenote').textContent=`${s.name} sellers come from ${s.nstates} states. The top three (${top.slice(0,3).map(x=>x[0]).join(', ')}) account for ${pct(t3,s.total)} of its ${fmt(s.total)} documented sellers.`;
+}
+pick.onchange=drawStates; drawStates();
+document.getElementById('multifacts').innerHTML=`
+ <div class="fact"><b>${fmt(multi)}</b><span>sellers (${pct(multi,D.unique)}) appear on two or more of these sites</span></div>
+ <div class="fact"><b>${fmt((D.multi['3']||0)+(D.multi['4']||0))}</b><span>appear on three or more</span></div>`;
+const names=D.sites.map(s=>s.name), short={'Puppies.com':'Puppies.com','GoodDog':'GoodDog','AKC Marketplace':'AKC','PuppySpot':'PuppySpot','Greenfield Puppies':'Greenfield','Lancaster Puppies':'Lancaster','Pawrade':'Pawrade'};
+document.getElementById('matrix').innerHTML='<thead><tr><th scope="col">Sellers in common</th>'+names.map(n=>`<th scope="col">${short[n]||n}</th>`).join('')+'</tr></thead><tbody>'+
+ names.map(a=>`<tr><th scope="row" style="text-align:left">${a}</th>`+names.map(b=>a===b?'<td class="self">·</td>':`<td>${sup(D.overlap[a][b])}</td>`).join('')+'</tr>').join('')+'</tbody>';
+
+(function(){const A=D.audit,fmt=n=>n.toLocaleString('en-US'),pct=(a,b)=>Math.round(100*a/b)+'%',sup=n=>!n?'0':n<5?'<5':fmt(n);
+ const under=A.gd.total+A.cb.total,aud=D.unique,max=under;
+ document.getElementById('pipe').innerHTML=`
+  <div class="pipe"><span>Fully audited</span><div class="pb"><div style="width:${Math.max(1,100*aud/max)}%;background:var(--blue)"></div></div><span class="n" style="text-align:right;font-weight:600">${fmt(aud)}</span></div>
+  <div class="pipe"><span>Under review</span><div class="pb"><div class="hatch" style="width:100%"></div></div><span class="n" style="text-align:right;font-weight:600">${fmt(under)}</span></div>`;
+ document.getElementById('pipenote').textContent=`Profiles under review: ${fmt(A.gd.total)} on GoodDog and ${fmt(A.cb.total)} on Puppies.com and AKC Marketplace. We have already found ${fmt(A.cb.xplat)} possible matches of the same seller on more than one site, and expect more.`;
+ document.getElementById('signs').innerHTML=`
+  <div class="fact"><b>${pct(A.gd.deliv,A.gd.total)}</b><span>of GoodDog profiles offer to deliver puppies</span></div>
+  <div class="fact"><b>${pct(A.gd.third,A.gd.total)}</b><span>use third-party transporters like flight nannies, so buyers may never see the puppy first</span></div>
+  <div class="fact"><b>${fmt(A.gd.both)}</b><span>report 5 or more breeding females and use third-party transport, which generally requires a USDA license</span></div>
+  <div class="fact"><b>${fmt(A.gd.stth)}</b><span>in states that license breeders report enough breeding females to need a state license</span></div>`;
+ const S=A.states.filter(s=>s.gd>=5).sort((a,b)=>a.st.localeCompare(b.st)),p=document.getElementById('auditpick');
+ p.innerHTML=S.map((s,i)=>`<option value="${i}" ${s.st==='Texas'?'selected':''}>${s.st}</option>`).join('');
+ function draw(){const s=S[+p.value];document.getElementById('auditstate').innerHTML=`
+  <div class="fact"><b>${sup(s.gd+(s.cb||0))}</b><span>online profiles under review (${sup(s.gd)} GoodDog, ${sup(s.cb||0)} Puppies.com and AKC)</span></div>
+  <div class="fact"><b>${sup(s.third)}</b><span>GoodDog profiles using third-party transporters</span></div>
+  <div class="fact"><b>${sup(s.both)}</b><span>meet both conditions that generally require a USDA license</span></div>
+  <div class="fact"><b>${s.lic?sup(s.stth):'n/a'}</b><span>${s.lic?'report enough breeding females to need a state license':'This state does not license dog breeders statewide'}</span></div>`;}
+ p.onchange=draw;draw();})();
+
+})();</script>
+<script>(function(){function s(){var h=Math.ceil(document.body.getBoundingClientRect().height);try{if(window.frameElement)window.frameElement.style.height=h+'px'}catch(e){}try{parent.postMessage({type:'bob-dash-height',height:h},'*')}catch(e){}}addEventListener('load',s);addEventListener('resize',s);if(window.ResizeObserver)new ResizeObserver(s).observe(document.body);})();</script>
+</body>
+</html>

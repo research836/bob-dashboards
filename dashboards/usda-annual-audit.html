@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Source+Sans+3:wght@400;600;700&display=swap">
+<title>USDA Annual Audit · Bailing Out Benji</title>
+<style>
+/* ── TOKENS — BOB Brand: dark navy + cyan ── */
+:root {
+  --text-on-navy: #E8F3FA;
+  --text-sub-on-navy: #92B8D0;
+  --bg: #091525;
+  --surface: rgba(255,255,255,0.05);
+  --surface-solid: #0F2038;
+  --surface-2: rgba(255,255,255,0.08);
+  --text: #E8F3FA;
+  --text-sub: #92B8D0;
+  --text-muted: #5A809A;
+  --accent: #19C4E2;
+  --accent-light: rgba(25,196,226,0.12);
+  --accent-glow: rgba(25,196,226,0.25);
+  --vio: #F06050;
+  --vio-mid: #E8A030;
+  --clean: #30D48C;
+  --clean-light: rgba(48,212,140,0.1);
+  --critical-c: #B07AEE;
+  --border: rgba(255,255,255,0.1);
+  --nav-bg: #040E1A;
+  --radius: 6px;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #EEF4FA;
+    --surface: rgba(0,0,0,0.03);
+    --surface-solid: #FFFFFF;
+    --surface-2: rgba(0,0,0,0.04);
+    --text: #091525;
+    --text-sub: #3A5570;
+    --text-muted: #7A9AB0;
+    --accent: #0A87A8;
+    --accent-light: rgba(10,135,168,0.08);
+    --accent-glow: rgba(10,135,168,0.15);
+    --vio: #C0311E;
+    --vio-mid: #B5711E;
+    --clean: #1A7A50;
+    --clean-light: rgba(26,122,80,0.08);
+    --critical-c: #622080;
+    --border: #C4D8E8;
+    --nav-bg: #0A1929;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #EEF4FA;
+  --surface: rgba(0,0,0,0.03);
+  --surface-solid: #FFFFFF;
+  --surface-2: rgba(0,0,0,0.04);
+  --text: #091525;
+  --text-sub: #3A5570;
+  --text-muted: #7A9AB0;
+  --accent: #0A87A8;
+  --accent-light: rgba(10,135,168,0.08);
+  --accent-glow: rgba(10,135,168,0.15);
+  --vio: #C0311E;
+  --vio-mid: #B5711E;
+  --clean: #1A7A50;
+  --clean-light: rgba(26,122,80,0.08);
+  --critical-c: #622080;
+  --border: #C4D8E8;
+  --nav-bg: #0A1929;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  font-family: 'Source Sans 3', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+}
+h1, h2, h3 {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  text-wrap: balance;
+  line-height: 1.2;
+  font-weight: 800;
+}
+.container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+.site-header { background: var(--nav-bg); padding: 16px 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+.header-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.brand { display: flex; align-items: center; gap: 10px; }
+.brand-name { font-family: 'Montserrat', sans-serif; font-size: 17px; font-weight: 700; color: #fff; letter-spacing: -0.01em; }
+.brand-div { color: rgba(255,255,255,0.25); font-size: 18px; }
+.brand-sub { font-size: 13px; color: rgba(255,255,255,0.55); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.header-note { color: rgba(255,255,255,0.3); font-size: 12px; }
+.year-nav { background: var(--nav-bg); border-bottom: 2px solid rgba(255,255,255,0.05); position: sticky; top: 0; z-index: 100; }
+.year-tabs { display: flex; gap: 0; }
+.year-tab {
+  background: none; border: none; color: rgba(255,255,255,0.45);
+  font-family: 'Source Sans 3', sans-serif; font-size: 14px; font-weight: 700; letter-spacing: 0.06em;
+  padding: 14px 22px; cursor: pointer; position: relative; display: flex; align-items: center; gap: 7px; transition: color 0.12s;
+}
+.year-tab:hover { color: rgba(255,255,255,0.75); }
+.year-tab[aria-pressed="true"] { color: #fff; }
+.year-tab[aria-pressed="true"]::after { content: ''; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px; background: var(--accent); }
+.peak-badge { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; background: #8C2218; color: #fff; padding: 2px 5px; border-radius: 3px; }
+.year-hero { background: var(--nav-bg); border-bottom: 3px solid var(--accent); padding: 44px 0 36px; position: relative; overflow: hidden; }
+.year-hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(25,196,226,0.06) 0%, transparent 60%); pointer-events: none; }
+.hero-grid { display: grid; grid-template-columns: auto 1fr auto; gap: 32px; align-items: start; }
+.hero-year { font-family: 'Montserrat', sans-serif; font-size: 84px; font-weight: 900; color: var(--accent); line-height: 1; letter-spacing: -3px; white-space: nowrap; text-shadow: 0 0 40px var(--accent-glow); }
+.hero-eyebrow { display: inline-block; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); border: 1px solid var(--accent); padding: 3px 10px; border-radius: 20px; margin-bottom: 14px; }
+.hero-headline { font-size: 22px; font-weight: 800; color: var(--text-on-navy); margin-bottom: 12px; font-family: 'Montserrat', sans-serif; }
+.hero-note { font-size: 15px; color: var(--text-sub-on-navy); max-width: 56ch; line-height: 1.55; }
+.hero-stat-block { text-align: right; padding-left: 32px; border-left: 1px solid var(--border); flex-shrink: 0; }
+.hero-big-rate { font-family: 'Montserrat', sans-serif; font-size: 56px; font-weight: 900; color: var(--vio); line-height: 1; font-variant-numeric: tabular-nums; text-shadow: 0 0 30px rgba(240,96,80,0.3); }
+.hero-rate-label { font-size: 13px; color: var(--text-sub-on-navy); margin-top: 7px; line-height: 1.4; }
+.stats-strip { padding: 28px 0 24px; }
+.stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.stat-tile { background: var(--surface-solid, var(--surface)); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px 20px; }
+.stat-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 8px; }
+.stat-val { font-size: 36px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text); line-height: 1; }
+.stat-tile.t-vio .stat-val { color: var(--vio); }
+.stat-tile.t-clean .stat-val { color: var(--clean); }
+.stat-tile.t-accent .stat-val { color: var(--accent); }
+.section { padding: 36px 0; border-top: 1px solid var(--border); }
+.section-hd { margin-bottom: 22px; }
+.section-title { font-family: 'Montserrat', sans-serif; font-size: 19px; font-weight: 800; color: var(--text); }
+.section-sub { font-size: 14px; color: var(--text-sub); margin-top: 5px; }
+.nci-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 32px; }
+.nci-tile { border-radius: var(--radius); padding: 20px 18px 18px; border: 1px solid; }
+.nci-tile.t-direct { background: rgba(240,96,80,0.1); border-color: rgba(240,96,80,0.28); }
+.nci-tile.t-critical { background: rgba(176,122,238,0.1); border-color: rgba(176,122,238,0.28); }
+.nci-tile.t-noncrit { background: rgba(232,160,48,0.1); border-color: rgba(232,160,48,0.28); }
+.nci-num { font-size: 40px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; }
+.nci-tile.t-direct .nci-num { color: var(--vio); }
+.nci-tile.t-critical .nci-num { color: var(--critical-c); }
+.nci-tile.t-noncrit .nci-num { color: var(--vio-mid); }
+.nci-type { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-sub); margin-top: 8px; }
+.nci-explain { font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.45; }
+.sev-list { display: flex; flex-direction: column; gap: 9px; }
+.sev-row { display: grid; grid-template-columns: 175px 1fr 42px; align-items: center; gap: 12px; }
+.sev-label { font-size: 13px; color: var(--text-sub); white-space: nowrap; }
+.sev-track { height: 26px; background: var(--surface-solid, var(--surface-2)); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
+.sev-fill { height: 100%; border-radius: 3px; transition: width 0.35s cubic-bezier(.4,0,.2,1); }
+.sev-count { font-size: 13px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--text); text-align: right; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+.chart-card { background: var(--surface-solid, var(--surface)); border: 1px solid var(--border); border-radius: var(--radius); padding: 22px 22px 18px; }
+.chart-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--text-muted); margin-bottom: 18px; }
+.glossary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 22px; }
+.gloss-card { background: var(--surface-solid, var(--surface)); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 18px 16px; }
+.gloss-term { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 7px; }
+.gloss-def { font-size: 14px; color: var(--text-sub); line-height: 1.5; }
+.method-box { background: var(--surface-solid, var(--bg)); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: var(--radius); padding: 22px 24px; max-width: 800px; }
+.method-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 10px; }
+.method-text { font-size: 14px; color: var(--text-sub); line-height: 1.65; }
+.method-text p + p { margin-top: 10px; }
+.site-footer { background: var(--nav-bg); padding: 22px 0; margin-top: 48px; }
+.footer-inner { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.footer-text { color: rgba(255,255,255,0.3); font-size: 13px; }
+@media (max-width: 800px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 20px; }
+  .hero-year { font-size: 60px; }
+  .hero-stat-block { border-left: none; padding-left: 0; text-align: left; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .two-col { grid-template-columns: 1fr; }
+  .glossary-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 520px) {
+  .nci-row { grid-template-columns: 1fr; }
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .glossary-grid { grid-template-columns: 1fr; }
+  .sev-row { grid-template-columns: 130px 1fr 36px; }
+  .year-tab { padding: 12px 14px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sev-fill { transition: none; }
+}
+</style>
+</head>
+<body>
+
+
+<!-- ── SITE HEADER ── -->
+<header class="site-header">
+  <div class="container header-inner">
+    <div class="brand">
+      <span class="brand-name">Bailing Out Benji</span>
+      <span class="brand-div">·</span>
+      <span class="brand-sub">USDA Annual Audit Series</span>
+    </div>
+    <span class="header-note" id="header-note">2021 – 2026 · 2026 updated as new inspection data arrives</span>
+  </div>
+</header>
+
+<!-- ── YEAR NAVIGATION ── -->
+<nav class="year-nav" aria-label="Select audit year">
+  <div class="container">
+    <div class="year-tabs" role="tablist">
+      <button class="year-tab" role="tab" data-year="2026" aria-pressed="true">2026 <span class="peak-badge" style="background:#1A6E8C;">In Progress</span></button>
+      <button class="year-tab" role="tab" data-year="2025">2025</button>
+      <button class="year-tab" role="tab" data-year="2024">2024</button>
+      <button class="year-tab" role="tab" data-year="2023">2023 <span class="peak-badge">Peak</span></button>
+      <button class="year-tab" role="tab" data-year="2022">2022</button>
+      <button class="year-tab" role="tab" data-year="2021">2021</button>
+    </div>
+  </div>
+</nav>
+
+<!-- ── YEAR HERO ── -->
+<section class="year-hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div class="hero-year" id="hero-year">2026</div>
+      <div>
+        <p class="hero-eyebrow">USDA APHIS Licensed Facilities · Annual Audit</p>
+        <p class="hero-eyebrow" id="hero-partial-badge" style="display:none; background:#1A6E8C; border-color:#1A6E8C; color:#fff; margin-left:8px;">Partial Year</p>
+        <h1 class="hero-headline" id="hero-headline"></h1>
+        <p class="hero-note" id="hero-note"></p>
+      </div>
+      <div class="hero-stat-block">
+        <div class="hero-big-rate" id="hero-rate"></div>
+        <div class="hero-rate-label">of inspections found<br>at least one violation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── STAT TILES ── -->
+<div class="stats-strip">
+  <div class="container">
+    <div class="stat-grid">
+      <div class="stat-tile t-accent">
+        <div class="stat-label">Total Inspections</div>
+        <div class="stat-val" id="s-total">—</div>
+      </div>
+      <div class="stat-tile t-vio">
+        <div class="stat-label">Inspections With Violations</div>
+        <div class="stat-val" id="s-vio">—</div>
+      </div>
+      <div class="stat-tile t-clean">
+        <div class="stat-label">Clean Inspections</div>
+        <div class="stat-val" id="s-clean">—</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-label">Total Non-Compliant Items</div>
+        <div class="stat-val" id="s-ncis">—</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── NCI BREAKDOWN ── -->
+<div class="section">
+  <div class="container">
+    <div class="section-hd">
+      <div class="section-title">Non-Compliant Items by Severity</div>
+      <p class="section-sub">A single inspection can produce multiple Non-Compliant Items (NCIs) at different severity levels. Counts below reflect individual NCIs, not individual facilities.</p>
+    </div>
+    <div class="nci-row">
+      <div class="nci-tile t-direct">
+        <div class="nci-num" id="nci-direct">—</div>
+        <div class="nci-type">Direct</div>
+        <div class="nci-explain">Conditions likely to cause injury, illness, or death if not corrected immediately</div>
+      </div>
+      <div class="nci-tile t-critical">
+        <div class="nci-num" id="nci-critical">—</div>
+        <div class="nci-type">Critical</div>
+        <div class="nci-explain">Harm that has already occurred or is actively occurring to animal health or welfare</div>
+      </div>
+      <div class="nci-tile t-noncrit">
+        <div class="nci-num" id="nci-noncrit">—</div>
+        <div class="nci-type">Non-Critical</div>
+        <div class="nci-explain">A compliance failure that doesn't pose an immediate threat but still violates federal standards</div>
+      </div>
+    </div>
+
+    <div class="section-title" style="font-size:16px; margin-bottom:16px;">Violation Severity Breakdown</div>
+    <div class="sev-list" id="sev-list"></div>
+  </div>
+</div>
+
+<!-- ── TOP VIOLATION CATEGORIES ── -->
+<div class="section">
+  <div class="container">
+    <div class="section-hd">
+      <div class="section-title">Top Violation Categories</div>
+      <p class="section-sub">The USDA Animal Welfare Act standards most frequently cited during inspections this year.</p>
+    </div>
+    <div class="chart-card">
+      <div style="position:relative; height:230px;">
+        <canvas id="cat-chart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── STATES + LICENSE TYPE ── -->
+<div class="section">
+  <div class="container">
+    <div class="two-col">
+      <div>
+        <div class="section-hd">
+          <div class="section-title">States With Most Inspections</div>
+          <p class="section-sub">Missouri has led every year in our dataset by a significant margin.</p>
+        </div>
+        <div class="chart-card">
+          <div style="position:relative; height:210px;">
+            <canvas id="states-chart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="section-hd">
+          <div class="section-title">License Type</div>
+          <p class="section-sub">Class A licenses are held by breeders; Class B by dealers who buy and resell animals.</p>
+        </div>
+        <div class="chart-card">
+          <div style="position:relative; height:210px;">
+            <canvas id="lic-chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── VIOLATION RATE BY STATE ── -->
+<div class="section">
+  <div class="container">
+    <div class="section-hd">
+      <div class="section-title">Violation Rate by State</div>
+      <p class="section-sub">Missouri leads in oversight volume, but these states show the worst outcomes per inspection. Ranked by share of inspections with at least one violation; limited to states with at least 15 inspections that year to avoid small-sample noise.</p>
+    </div>
+    <div class="chart-card">
+      <div style="position:relative; height:230px;">
+        <canvas id="rate-states-chart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 5-YEAR TREND ── -->
+<div class="section">
+  <div class="container">
+    <div class="section-hd">
+      <div class="section-title">Five-Year Trend</div>
+      <p class="section-sub">Total inspections (bars) and violation rate (line) across all years. The active year is highlighted; 2023 is shown in red as the peak violation-rate year.</p>
+    </div>
+    <div class="chart-card">
+      <div style="position:relative; height:300px;">
+        <canvas id="trend-chart"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── GLOSSARY ── -->
+<div class="section">
+  <div class="container">
+    <div class="section-hd">
+      <div class="section-title">Understanding the Terms</div>
+      <p class="section-sub">USDA inspection reports use specific regulatory language. Here's what it means in plain language.</p>
+    </div>
+    <div class="glossary-grid">
+      <div class="gloss-card">
+        <div class="gloss-term">Non-Compliant Item (NCI)</div>
+        <div class="gloss-def">A specific failure to meet a USDA Animal Welfare Act standard, documented by an inspector during a facility visit. One inspection can produce multiple NCIs.</div>
+      </div>
+      <div class="gloss-card">
+        <div class="gloss-term">Direct NCI</div>
+        <div class="gloss-def">A violation in which the conditions found are likely to cause injury, illness, or death to an animal if not corrected immediately. This is the most serious category before active harm is confirmed.</div>
+      </div>
+      <div class="gloss-card">
+        <div class="gloss-term">Critical NCI</div>
+        <div class="gloss-def">A violation indicating that an animal has already been seriously harmed or is experiencing conditions causing ongoing harm. These require the USDA to take urgent enforcement action.</div>
+      </div>
+      <div class="gloss-card">
+        <div class="gloss-term">Non-Critical NCI</div>
+        <div class="gloss-def">A compliance failure that does not pose an immediate threat to animal welfare but still represents a violation of federal standards. Repeat non-critical violations may signal systematic neglect.</div>
+      </div>
+      <div class="gloss-card">
+        <div class="gloss-term">Class A License</div>
+        <div class="gloss-def">A USDA license held by breeders who sell animals they produced themselves. These are the facilities that breed and sell puppies and kittens, often to pet stores or brokers.</div>
+      </div>
+      <div class="gloss-card">
+        <div class="gloss-term">Class B License</div>
+        <div class="gloss-def">A USDA license held by dealers who buy animals from one source and resell them, including brokers who act as middlemen between breeders and pet stores or the public.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── METHODOLOGY ── -->
+<div class="section">
+  <div class="container">
+    <div class="method-box">
+      <div class="method-label">About This Audit</div>
+      <div class="method-text">
+        <p>This annual audit covers USDA APHIS-licensed breeders, brokers, and dealers actively tracked in the Bailing Out Benji database: facilities with documented connections to the commercial pet trade, including pet stores, online brokers, and animal transport companies.</p>
+        <p>Inspection data is sourced from USDA APHIS inspection reports, obtained from the USDA APHIS website. The dataset spans January 2021 through the most recent reports on file for 2026. 2021–2025 are complete calendar years; 2026 is a partial, in-progress year that will keep growing as new reports post. USDA typically posts inspection reports on roughly a 4-week delay, so the most recent few weeks of any period will look artificially low until later reports catch up. Records without complete date or license type information have been excluded from aggregate totals. Inspection counts represent individual inspection events, not unique facilities; some facilities were inspected more than once in a given year.</p>
+        <p>This audit does not cover all USDA-licensed entities (such as research facilities, zoos, or circuses). It reflects only facilities that fall within Bailing Out Benji's research focus on the commercial dog and cat breeding industry.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <span class="footer-text">© Bailing Out Benji · bailingoutbenji.com</span>
+    <span class="footer-text">Source: USDA APHIS Enriched Inspection Records</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script>
+/* ── DATA ── */
+/* Static snapshot generated on 2026-11-04 from BOB inspection records.
+   Scope: Class A (Breeder) and Class B (Dealer) inspections by calendar year.
+   2021-2025 are complete years; 2026 is partial (through September 2026)
+   and marked with `partial: true`. The numbers below are hardcoded; this
+   page does not connect to any database. */
+let YEARS = [2021, 2022, 2023, 2024, 2025, 2026];
+let PEAK = 2023;
+
+let DATA = {
+  2021: {
+    total: 2940, vio: 351, clean: 2589, rate: 11.9,
+    direct: 41, critical: 12, noncrit: 361, totalNCIs: 414,
+    classA: 2627, classB: 313,
+    headline: 'Inspection volume returns to pre-pandemic levels.',
+    note: '2021 recorded 2,940 Class A/B dog and cat inspections, with Missouri accounting for roughly a third of all inspections in our dataset. Records-access violations were the most frequently cited issue, consistent with every other year in this audit.',
+    states: [['Missouri',942], ['Indiana',394], ['Ohio',312], ['Iowa',242], ['Kansas',166]],
+    cats: [['Access and inspection of records and property; submission of itineraries',132], ['Housing facilities, general',93], ['Attending veterinarian and adequate veterinary care (dealers and exhibitors)',79], ['Cleaning, sanitization, housekeeping, and pest control',64], ['Veterinary care for dogs',53]],
+    rateStates: [['New York',35.0,60], ['Wisconsin',32.4,102], ['Michigan',29.0,31], ['Iowa',21.9,242], ['Pennsylvania',16.7,54]],
+    severity: {'Non-Critical':318, 'Non-Critical (Repeat)':43, 'Direct (Repeat)':8, 'Direct':33, 'Critical (Repeat)':2, 'Critical':10},
+  },
+  2022: {
+    total: 3562, vio: 465, clean: 3097, rate: 13.1,
+    direct: 37, critical: 8, noncrit: 478, totalNCIs: 523,
+    classA: 3204, classB: 358,
+    headline: 'The highest inspection volume in this five-year dataset.',
+    note: 'At 3,562 inspections, 2022 saw more Class A/B dog and cat inspections than any other completed year on file. The violation rate ticked up to 13.1%, with records-access and veterinary care issues the most common citations.',
+    states: [['Missouri',1204], ['Indiana',456], ['Iowa',364], ['Ohio',266], ['Kansas',196]],
+    cats: [['Access and inspection of records and property; submission of itineraries',138], ['Veterinary care for dogs',117], ['Housing facilities, general',104], ['Attending veterinarian and adequate veterinary care (dealers and exhibitors)',101], ['Cleaning, sanitization, housekeeping, and pest control',70]],
+    rateStates: [['Virginia',64.7,17], ['Michigan',31.8,44], ['New York',30.6,72], ['Iowa',26.6,364], ['Wisconsin',25.7,136]],
+    severity: {'Non-Critical':408, 'Non-Critical (Repeat)':70, 'Direct':28, 'Critical':7, 'Direct (Repeat)':9, 'Critical (Repeat)':1},
+  },
+  2023: {
+    total: 3265, vio: 628, clean: 2637, rate: 19.2,
+    direct: 57, critical: 35, noncrit: 633, totalNCIs: 725,
+    classA: 2929, classB: 336,
+    headline: 'Nearly 1 in 5 inspections found problems, the highest violation rate on record.',
+    note: '2023’s 19.2% violation rate is the peak in our dataset, and critical NCIs reached 35, also a high. Records-access and veterinary care violations were the most frequently cited issues.',
+    states: [['Missouri',1083], ['Ohio',388], ['Indiana',335], ['Iowa',290], ['Kansas',168]],
+    cats: [['Access and inspection of records and property; submission of itineraries',205], ['Veterinary care for dogs',184], ['Attending veterinarian and adequate veterinary care (dealers and exhibitors)',149], ['Housing facilities, general',115], ['Records: Dealers and exhibitors',84]],
+    rateStates: [['Virginia',58.1,31], ['Wisconsin',50.7,152], ['Florida',42.1,19], ['Ohio',36.6,388], ['Texas',34.1,44]],
+    severity: {'Non-Critical':542, 'Critical':25, 'Direct (Repeat)':22, 'Non-Critical (Repeat)':91, 'Direct':35, 'Critical (Repeat)':10},
+  },
+  2024: {
+    total: 3174, vio: 457, clean: 2717, rate: 14.4,
+    direct: 38, critical: 7, noncrit: 454, totalNCIs: 499,
+    classA: 2894, classB: 280,
+    headline: 'Violation rates ease from the 2023 peak, but records-access issues persist.',
+    note: 'After 2023’s high, the violation rate dropped to 14.4% and critical NCIs fell from 35 to 7. Records-access remained the most-cited violation category, with veterinary care close behind.',
+    states: [['Missouri',879], ['Indiana',672], ['Ohio',317], ['Iowa',289], ['Wisconsin',151]],
+    cats: [['Access and inspection of records and property; submission of itineraries',146], ['Veterinary care for dogs',138], ['Attending veterinarian and adequate veterinary care (dealers and exhibitors)',89], ['Records: Dealers and exhibitors',57], ['Housing facilities, general',54]],
+    rateStates: [['New York',38.6,88], ['Ohio',38.5,317], ['Wisconsin',35.1,151], ['Michigan',25.6,43], ['Florida',25.0,16]],
+    severity: {'Non-Critical':397, 'Direct':30, 'Non-Critical (Repeat)':57, 'Direct (Repeat)':8, 'Critical (Repeat)':2, 'Critical':5},
+  },
+  2025: {
+    total: 2704, vio: 370, clean: 2334, rate: 13.7,
+    direct: 26, critical: 17, noncrit: 370, totalNCIs: 413,
+    classA: 2464, classB: 240,
+    headline: 'Inspection volume dips, but critical violations climb back up.',
+    note: '2025 recorded 2,704 Class A/B dog and cat inspections, fewer than 2022, 2023, or 2024, while critical NCIs rose to 17. Records-access violations remained the top-cited issue. Part of the dip in inspection volume is tied to the federal government shutdown from October 1 to November 12, 2025, during which routine APHIS Animal Welfare Act inspections were suspended.',
+    states: [['Missouri',848], ['Indiana',407], ['Ohio',353], ['Iowa',238], ['Wisconsin',124]],
+    cats: [['Access and inspection of records and property; submission of itineraries',141], ['Veterinary care for dogs',109], ['Attending veterinarian and adequate veterinary care (dealers and exhibitors)',53], ['Housing facilities, general',40], ['Records: Dealers and exhibitors',37]],
+    rateStates: [['New York',43.4,53], ['Ohio',35.1,353], ['Wisconsin',27.4,124], ['Michigan',25.0,24], ['Florida',24.0,25]],
+    severity: {'Non-Critical (Repeat)':44, 'Non-Critical':326, 'Critical (Repeat)':6, 'Direct':17, 'Direct (Repeat)':9, 'Critical':11},
+  },
+  2026: {
+    total: 2090, vio: 314, clean: 1776, rate: 15.0,
+    direct: 23, critical: 6, noncrit: 321, totalNCIs: 350,
+    classA: 1895, classB: 195,
+    headline: 'Year in progress, data through September.',
+    note: '2026 is still in progress. Through September, 2,090 inspections have been logged with a 15.0% violation rate, and monthly volume has held steady at roughly 200 to 260 inspections. USDA posts inspection reports with a delay of about four weeks, so the most recent weeks may still be undercounted. Treat this tab as a partial snapshot, not a year-end total.',
+    states: [['Missouri',630], ['Indiana',382], ['Ohio',304], ['Iowa',147], ['Wisconsin',100]],
+    cats: [['Access and inspection of records and property; submission of itineraries',122], ['Veterinary care for dogs',96], ['Attending veterinarian and adequate veterinary care (dealers and exhibitors)',61], ['Cleaning, sanitization, housekeeping, and pest control',48], ['Housing facilities, general',42]],
+    rateStates: [['Wisconsin',37.0,100], ['Florida',35.0,20], ['Ohio',31.9,304], ['New York',30.3,33], ['Texas',28.6,21]],
+    severity: {'Non-Critical':281, 'Non-Critical (Repeat)':40, 'Direct (Repeat)':5, 'Direct':18, 'Critical':5, 'Critical (Repeat)':1},
+    partial: true, asOf: 'September 2026',
+  },
+};
+
+const SEV_ORDER = ['Direct','Direct (Repeat)','Critical','Critical (Repeat)','Non-Critical','Non-Critical (Repeat)'];
+const SEV_COLORS = {
+  'Direct':'#F06050','Direct (Repeat)':'#E84030',
+  'Critical':'#B07AEE','Critical (Repeat)':'#9050D8',
+  'Non-Critical':'#E8A030','Non-Critical (Repeat)':'#D08018',
+};
+
+/* ── STATE ── */
+let activeYear = 2026;
+const charts = {};
+
+function fmt(n) { return n.toLocaleString(); }
+
+/* ── CHART HELPERS ── */
+function chartTextColor() {
+  return getComputedStyle(document.documentElement).getPropertyValue('--text-sub').trim() || '#4A5E73';
+}
+function chartBorderColor() {
+  return getComputedStyle(document.documentElement).getPropertyValue('--border').trim() || '#C8D6E3';
+}
+
+const ACCENT = 'rgba(25,196,226,0.70)';
+const ACCENT_BRIGHT = 'rgba(25,196,226,1)';
+const PEAK_COLOR = 'rgba(240,96,80,0.60)';
+const VIO_LINE = 'rgba(240,96,80,0.90)';
+const VIO_FILL = 'rgba(240,96,80,0.10)';
+
+/* ── RENDER YEAR ── */
+function render(year) {
+  const d = DATA[year];
+  activeYear = year;
+
+  document.querySelectorAll('.year-tab').forEach(b => {
+    b.setAttribute('aria-pressed', b.dataset.year == year ? 'true' : 'false');
+  });
+
+  document.getElementById('hero-year').textContent = year;
+  document.getElementById('hero-partial-badge').style.display = d.partial ? 'inline-block' : 'none';
+  document.getElementById('hero-headline').textContent = d.headline;
+  document.getElementById('hero-note').textContent = d.note;
+  document.getElementById('hero-rate').textContent = d.rate.toFixed(1) + '%';
+
+  document.getElementById('s-total').textContent = fmt(d.total);
+  document.getElementById('s-vio').textContent = fmt(d.vio);
+  document.getElementById('s-clean').textContent = fmt(d.clean);
+  document.getElementById('s-ncis').textContent = fmt(d.totalNCIs);
+
+  document.getElementById('nci-direct').textContent = d.direct;
+  document.getElementById('nci-critical').textContent = d.critical;
+  document.getElementById('nci-noncrit').textContent = fmt(d.noncrit);
+
+  renderSeverityBars(d);
+  updateCatChart(d);
+  updateStatesChart(d);
+  updateRateStatesChart(d);
+  updateLicChart(d);
+  updateTrendChart(year);
+}
+
+function renderSeverityBars(d) {
+  const max = Math.max(...SEV_ORDER.map(k => d.severity[k] || 0));
+  const el = document.getElementById('sev-list');
+  el.innerHTML = '';
+  SEV_ORDER.forEach(key => {
+    const val = d.severity[key];
+    if (!val) return;
+    const pct = (val / max * 100).toFixed(1);
+    const color = SEV_COLORS[key] || '#888';
+    const row = document.createElement('div');
+    row.className = 'sev-row';
+    row.innerHTML = `
+      <span class="sev-label">${key}</span>
+      <div class="sev-track"><div class="sev-fill" style="width:${pct}%;background:${color};"></div></div>
+      <span class="sev-count">${fmt(val)}</span>
+    `;
+    el.appendChild(row);
+  });
+}
+
+/* ── CHARTS ── */
+function updateCatChart(d) {
+  const labels = d.cats.map(c => c[0]);
+  const vals = d.cats.map(c => c[1]);
+  if (charts.cat) {
+    charts.cat.data.labels = labels;
+    charts.cat.data.datasets[0].data = vals;
+    charts.cat.update('none');
+    return;
+  }
+  const ctx = document.getElementById('cat-chart').getContext('2d');
+  charts.cat = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ data: vals, backgroundColor: ACCENT_BRIGHT, borderWidth: 0, borderRadius: 3 }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: c => ` ${c.parsed.x} inspections cited this issue` } }
+      },
+      scales: {
+        x: {
+          grid: { color: chartBorderColor() },
+          ticks: { color: chartTextColor(), font: { family: "'Source Sans 3',sans-serif", size: 12 } }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { color: chartTextColor(), font: { family: "'Source Sans 3',sans-serif", size: 12 } }
+        }
+      }
+    }
+  });
+}
+
+function updateStatesChart(d) {
+  const labels = d.states.map(s => s[0]);
+  const vals = d.states.map(s => s[1]);
+  const alphas = [1, 0.72, 0.52, 0.38, 0.26];
+  const bgs = alphas.map(a => `rgba(25,196,226,${a})`);
+  if (charts.states) {
+    charts.states.data.labels = labels;
+    charts.states.data.datasets[0].data = vals;
+    charts.states.update('none');
+    return;
+  }
+  const ctx = document.getElementById('states-chart').getContext('2d');
+  charts.states = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ data: vals, backgroundColor: bgs, borderWidth: 0, borderRadius: 3 }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: {
+        x: {
+          grid: { color: chartBorderColor() },
+          ticks: { color: chartTextColor(), font: { size: 12 } }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { color: chartTextColor(), font: { size: 12 } }
+        }
+      }
+    }
+  });
+}
+
+function updateRateStatesChart(d) {
+  const labels = d.rateStates.map(s => s[0]);
+  const rates = d.rateStates.map(s => s[1]);
+  const counts = d.rateStates.map(s => s[2]);
+  if (charts.rateStates) {
+    charts.rateStates.data.labels = labels;
+    charts.rateStates.data.datasets[0].data = rates;
+    charts.rateStates.data.datasets[0]._counts = counts;
+    charts.rateStates.update('none');
+    return;
+  }
+  const ctx = document.getElementById('rate-states-chart').getContext('2d');
+  charts.rateStates = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [{ data: rates, _counts: counts, backgroundColor: VIO_LINE, borderWidth: 0, borderRadius: 3 }]
+    },
+    options: {
+      indexAxis: 'y',
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: {
+            label: c => {
+              const n = c.dataset._counts[c.dataIndex];
+              return ` ${c.parsed.x}% of inspections found a violation (${fmt(n)} inspections)`;
+            }
+          }
+        }
+      },
+      scales: {
+        x: {
+          min: 0,
+          grid: { color: chartBorderColor() },
+          ticks: { color: chartTextColor(), font: { size: 12 }, callback: v => v + '%' }
+        },
+        y: {
+          grid: { display: false },
+          ticks: { color: chartTextColor(), font: { size: 12 } }
+        }
+      }
+    }
+  });
+}
+
+function updateLicChart(d) {
+  const vals = [d.classA, d.classB];
+  if (charts.lic) {
+    charts.lic.data.datasets[0].data = vals;
+    charts.lic.update('none');
+    return;
+  }
+  const ctx = document.getElementById('lic-chart').getContext('2d');
+  charts.lic = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: ['Class A · Breeders', 'Class B · Dealers'],
+      datasets: [{ data: vals, backgroundColor: ['rgba(25,196,226,0.85)','rgba(232,160,48,0.75)'], borderWidth: 0, hoverOffset: 4 }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '62%',
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: chartTextColor(), font: { family: "'Source Sans 3',sans-serif", size: 13 }, padding: 16, boxWidth: 12 }
+        },
+        tooltip: { callbacks: { label: c => ` ${c.label}: ${fmt(c.parsed)} inspections` } }
+      }
+    }
+  });
+}
+
+function updateTrendChart(selYear) {
+  const labels = YEARS.map(String);
+  const totals = YEARS.map(y => DATA[y].total);
+  const rates = YEARS.map(y => DATA[y].rate);
+
+  const barBgs = YEARS.map(y => {
+    if (y === selYear) return ACCENT_BRIGHT;
+    if (y === PEAK) return PEAK_COLOR;
+    return ACCENT;
+  });
+
+  if (charts.trend) {
+    charts.trend.data.datasets[0].backgroundColor = barBgs;
+    charts.trend.data.datasets[0].data = totals;
+    charts.trend.data.datasets[1].data = rates;
+    charts.trend.update('none');
+    return;
+  }
+  const ctx = document.getElementById('trend-chart').getContext('2d');
+  charts.trend = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels,
+      datasets: [
+        {
+          type: 'bar',
+          label: 'Total Inspections',
+          data: totals,
+          backgroundColor: barBgs,
+          borderWidth: 0,
+          borderRadius: 4,
+          yAxisID: 'y',
+        },
+        {
+          type: 'line',
+          label: 'Violation Rate %',
+          data: rates,
+          borderColor: VIO_LINE,
+          backgroundColor: VIO_FILL,
+          pointBackgroundColor: VIO_LINE,
+          pointRadius: 5,
+          pointHoverRadius: 7,
+          borderWidth: 2.5,
+          fill: true,
+          tension: 0.3,
+          yAxisID: 'y1',
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: { color: chartTextColor(), font: { family: "'Source Sans 3',sans-serif", size: 13 }, padding: 18, boxWidth: 12 }
+        }
+      },
+      scales: {
+        y: {
+          type: 'linear', position: 'left',
+          grid: { color: chartBorderColor() },
+          ticks: { color: chartTextColor(), font: { size: 12 } },
+          title: { display: true, text: 'Total Inspections', color: chartTextColor(), font: { size: 12 } }
+        },
+        y1: {
+          type: 'linear', position: 'right',
+          grid: { display: false },
+          min: 0, max: 25,
+          ticks: { color: 'rgba(140,34,24,0.8)', font: { size: 12 }, callback: v => v + '%' },
+          title: { display: true, text: 'Violation Rate', color: 'rgba(140,34,24,0.8)', font: { size: 12 } }
+        }
+      }
+    }
+  });
+}
+
+/* ── INIT ── */
+function applyData(years){
+  DATA = {}; Object.keys(years).forEach(y => { DATA[+y] = years[y]; });
+  YEARS = Object.keys(DATA).map(Number).sort((a,b) => a-b);
+  const full = YEARS.filter(y => !DATA[y].partial);
+  PEAK = full.reduce((p,y) => (p === null || DATA[y].rate > DATA[p].rate) ? y : p, null);
+}
+function buildTabs(){
+  const wrap = document.querySelector('.year-tabs');
+  wrap.innerHTML = YEARS.slice().reverse().map(y => {
+    const d = DATA[y];
+    const badge = d.partial ? ' <span class="peak-badge" style="background:#1A6E8C;">In Progress</span>' : (y === PEAK ? ' <span class="peak-badge">Peak</span>' : '');
+    return '<button class="year-tab" role="tab" data-year="' + y + '">' + y + badge + '</button>';
+  }).join('');
+  wrap.querySelectorAll('.year-tab').forEach(btn => btn.addEventListener('click', () => render(parseInt(btn.dataset.year))));
+  const last = YEARS[YEARS.length-1];
+  const hn = document.getElementById('header-note');
+  if (hn) hn.textContent = YEARS[0] + ' – ' + last + (DATA[last].partial ? ' · ' + last + ' updated as new inspection data arrives' : '');
+}
+(async function(){
+  applyData({"2021":{"total":2940,"vio":351,"clean":2589,"rate":11.9,"direct":41,"critical":12,"noncrit":361,"totalNCIs":414,"classA":2627,"classB":313,"states":[["Missouri",942],["Indiana",394],["Ohio",312],["Iowa",242],["Kansas",166]],"cats":[["Access and inspection of records and property; submission of itineraries",132],["Housing facilities, general",93],["Attending veterinarian and adequate veterinary care (dealers and exhibitors)",79],["Cleaning, sanitization, housekeeping, and pest control",64],["Veterinary care for dogs",53]],"rateStates":[["New York",35.0,60],["Wisconsin",32.4,102],["Michigan",29.0,31],["Iowa",21.9,242],["Pennsylvania",16.7,54]],"severity":{"Direct":33,"Direct (Repeat)":8,"Critical":10,"Critical (Repeat)":2,"Non-Critical":318,"Non-Critical (Repeat)":43},"headline":"Inspection volume returns to pre-pandemic levels.","note":"2021 recorded 2,940 Class A/B dog and cat inspections, with Missouri accounting for roughly a third of all inspections in our dataset. Records-access violations were the most frequently cited issue, consistent with every other year in this audit."},"2022":{"total":3562,"vio":465,"clean":3097,"rate":13.1,"direct":37,"critical":8,"noncrit":478,"totalNCIs":523,"classA":3204,"classB":358,"states":[["Missouri",1204],["Indiana",456],["Iowa",364],["Ohio",266],["Kansas",196]],"cats":[["Access and inspection of records and property; submission of itineraries",138],["Veterinary care for dogs",117],["Housing facilities, general",104],["Attending veterinarian and adequate veterinary care (dealers and exhibitors)",101],["Cleaning, sanitization, housekeeping, and pest control",70]],"rateStates":[["Virginia",64.7,17],["Michigan",31.8,44],["New York",30.6,72],["Iowa",26.6,364],["Wisconsin",25.7,136]],"severity":{"Direct":28,"Direct (Repeat)":9,"Critical":7,"Critical (Repeat)":1,"Non-Critical":408,"Non-Critical (Repeat)":70},"headline":"The highest inspection volume in this five-year dataset.","note":"At 3,562 inspections, 2022 saw more Class A/B dog and cat inspections than any other completed year on file. The violation rate ticked up to 13.1%, with records-access and veterinary care issues the most common citations."},"2023":{"total":3265,"vio":628,"clean":2637,"rate":19.2,"direct":57,"critical":35,"noncrit":633,"totalNCIs":725,"classA":2929,"classB":336,"states":[["Missouri",1083],["Ohio",388],["Indiana",335],["Iowa",290],["Kansas",168]],"cats":[["Access and inspection of records and property; submission of itineraries",205],["Veterinary care for dogs",184],["Attending veterinarian and adequate veterinary care (dealers and exhibitors)",149],["Housing facilities, general",115],["Records: Dealers and exhibitors",84]],"rateStates":[["Virginia",58.1,31],["Wisconsin",50.7,152],["Florida",42.1,19],["Ohio",36.6,388],["Texas",34.1,44]],"severity":{"Direct":35,"Direct (Repeat)":22,"Critical":25,"Critical (Repeat)":10,"Non-Critical":542,"Non-Critical (Repeat)":91},"headline":"Nearly 1 in 5 inspections found problems, the highest violation rate on record.","note":"2023’s 19.2% violation rate is the peak in our dataset, and critical NCIs reached 35, also a high. Records-access and veterinary care violations were the most frequently cited issues."},"2024":{"total":3174,"vio":457,"clean":2717,"rate":14.4,"direct":38,"critical":7,"noncrit":454,"totalNCIs":499,"classA":2894,"classB":280,"states":[["Missouri",879],["Indiana",672],["Ohio",317],["Iowa",289],["Wisconsin",151]],"cats":[["Access and inspection of records and property; submission of itineraries",146],["Veterinary care for dogs",138],["Attending veterinarian and adequate veterinary care (dealers and exhibitors)",89],["Records: Dealers and exhibitors",57],["Housing facilities, general",54]],"rateStates":[["New York",38.6,88],["Ohio",38.5,317],["Wisconsin",35.1,151],["Michigan",25.6,43],["Florida",25.0,16]],"severity":{"Direct":30,"Direct (Repeat)":8,"Critical":5,"Critical (Repeat)":2,"Non-Critical":397,"Non-Critical (Repeat)":57},"headline":"Violation rates ease from the 2023 peak, but records-access issues persist.","note":"After 2023’s high, the violation rate dropped to 14.4% and critical NCIs fell from 35 to 7. Records-access remained the most-cited violation category, with veterinary care close behind."},"2025":{"total":2704,"vio":370,"clean":2334,"rate":13.7,"direct":26,"critical":17,"noncrit":370,"totalNCIs":413,"classA":2464,"classB":240,"states":[["Missouri",848],["Indiana",407],["Ohio",353],["Iowa",238],["Wisconsin",124]],"cats":[["Access and inspection of records and property; submission of itineraries",141],["Veterinary care for dogs",109],["Attending veterinarian and adequate veterinary care (dealers and exhibitors)",53],["Housing facilities, general",40],["Records: Dealers and exhibitors",37]],"rateStates":[["New York",43.4,53],["Ohio",35.1,353],["Wisconsin",27.4,124],["Michigan",25.0,24],["Florida",24.0,25]],"severity":{"Direct":17,"Direct (Repeat)":9,"Critical":11,"Critical (Repeat)":6,"Non-Critical":326,"Non-Critical (Repeat)":44},"headline":"Inspection volume dips, but critical violations climb back up.","note":"2025 recorded 2,704 Class A/B dog and cat inspections, fewer than 2022, 2023, or 2024, while critical NCIs rose to 17. Records-access violations remained the top-cited issue. Part of the dip in inspection volume is tied to the federal government shutdown from October 1 to November 12, 2025, during which routine APHIS Animal Welfare Act inspections were suspended."},"2026":{"total":2090,"vio":314,"clean":1776,"rate":15.0,"direct":23,"critical":6,"noncrit":321,"totalNCIs":350,"classA":1895,"classB":195,"states":[["Missouri",630],["Indiana",382],["Ohio",304],["Iowa",147],["Wisconsin",100]],"cats":[["Access and inspection of records and property; submission of itineraries",122],["Veterinary care for dogs",96],["Attending veterinarian and adequate veterinary care (dealers and exhibitors)",61],["Cleaning, sanitization, housekeeping, and pest control",48],["Housing facilities, general",42]],"rateStates":[["Wisconsin",37.0,100],["Florida",35.0,20],["Ohio",31.9,304],["New York",30.3,33],["Texas",28.6,21]],"severity":{"Direct":18,"Direct (Repeat)":5,"Critical":5,"Critical (Repeat)":1,"Non-Critical":281,"Non-Critical (Repeat)":40},"partial":true,"asOf":"September 2026","headline":"Year in progress, data through September.","note":"2026 is still in progress. Through September, 2,090 inspections have been logged with a 15.0% violation rate. USDA posts inspection reports with a delay of about four weeks, so the most recent weeks may still be undercounted. Treat this tab as a partial snapshot, not a year-end total."}});
+  try {
+    const r = await fetch('https://research836.github.io/bob-dashboards/data/usda.json', {cache:'no-cache'});
+    if (r.ok) { const j = await r.json(); if (j && j.years) applyData(j.years); }
+  } catch (err) {}
+  buildTabs();
+  render(YEARS[YEARS.length-1]);
+})();
+
+/* ── AUTO-RESIZE WHEN EMBEDDED ──
+   When this page is shown inside an iframe on the same site (or an
+   iframe using srcdoc), grow/shrink the iframe to fit the content so
+   there is no inner scrollbar. Silently does nothing anywhere else. */
+(function () {
+  try {
+    var frame = window.frameElement;
+    if (!frame) return;
+    var fit = function () {
+      frame.style.height = Math.ceil(document.body.getBoundingClientRect().height) + 'px';
+    };
+    new ResizeObserver(fit).observe(document.body);
+    window.addEventListener('load', fit);
+    fit();
+  } catch (e) { /* cross-origin embed: fixed iframe height is used instead */ }
+})();
+</script>
+
+</body>
+</html>

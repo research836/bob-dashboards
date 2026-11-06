@@ -1,0 +1,6 @@
+<!doctype html><meta charset="utf-8"><title>BOB dashboard data</title>
+<body style="font-family:system-ui;max-width:640px;margin:40px auto;line-height:1.5">
+<h1>Bailing Out Benji dashboard data</h1>
+<p>This site only hosts the totals used by the dashboards on <a href="https://bailingoutbenji.com">bailingoutbenji.com</a>.</p>
+<p>Last update: <span id="u">checking...</span></p>
+<script>fetch('data/status.json',{cache:'no-cache'}).then(r=>r.json()).then(j=>{document.getElementById('u').textContent=j.asOf+' ('+j.updated+')'}).catch(()=>{document.getElementById('u').textContent='not yet run'})</script>

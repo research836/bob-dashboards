@@ -1,0 +1,22 @@
+{
+ "2021": {
+  "headline": "Inspection volume returns to pre-pandemic levels.",
+  "note": "2021 recorded 2,940 Class A/B dog and cat inspections, with Missouri accounting for roughly a third of all inspections in our dataset. Records-access violations were the most frequently cited issue, consistent with every other year in this audit."
+ },
+ "2022": {
+  "headline": "The highest inspection volume in this five-year dataset.",
+  "note": "At 3,562 inspections, 2022 saw more Class A/B dog and cat inspections than any other completed year on file. The violation rate ticked up to 13.1%, with records-access and veterinary care issues the most common citations."
+ },
+ "2023": {
+  "headline": "Nearly 1 in 5 inspections found problems, the highest violation rate on record.",
+  "note": "2023’s 19.2% violation rate is the peak in our dataset, and critical NCIs reached 35, also a high. Records-access and veterinary care violations were the most frequently cited issues."
+ },
+ "2024": {
+  "headline": "Violation rates ease from the 2023 peak, but records-access issues persist.",
+  "note": "After 2023’s high, the violation rate dropped to 14.4% and critical NCIs fell from 35 to 7. Records-access remained the most-cited violation category, with veterinary care close behind."
+ },
+ "2025": {
+  "headline": "Inspection volume dips, but critical violations climb back up.",
+  "note": "2025 recorded 2,704 Class A/B dog and cat inspections, fewer than 2022, 2023, or 2024, while critical NCIs rose to 17. Records-access violations remained the top-cited issue. Part of the dip in inspection volume is tied to the federal government shutdown from October 1 to November 12, 2025, during which routine APHIS Animal Welfare Act inspections were suspended."
+ }
+}

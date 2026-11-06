@@ -1,0 +1,418 @@
+{
+ "source": "GoodDog_Priority_Audit_v3 spreadsheet (state-by-state review of GoodDog breeder profiles)",
+ "total": 53462,
+ "deliv": 23808,
+ "third": 13145,
+ "both": 2764,
+ "stth": 3296,
+ "states": [
+  {
+   "st": "Alabama",
+   "gd": 855,
+   "third": 278,
+   "both": 66,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Alaska",
+   "gd": 164,
+   "third": 35,
+   "both": 6,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Arizona",
+   "gd": 1370,
+   "third": 362,
+   "both": 78,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Arkansas",
+   "gd": 826,
+   "third": 242,
+   "both": 49,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "California",
+   "gd": 3378,
+   "third": 916,
+   "both": 182,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Colorado",
+   "gd": 1165,
+   "third": 280,
+   "both": 51,
+   "stth": 823,
+   "lic": true
+  },
+  {
+   "st": "Connecticut",
+   "gd": 261,
+   "third": 55,
+   "both": 11,
+   "stth": 103,
+   "lic": true
+  },
+  {
+   "st": "Delaware",
+   "gd": 86,
+   "third": 14,
+   "both": 2,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "District of Columbia",
+   "gd": 6,
+   "third": 1,
+   "both": 0,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Florida",
+   "gd": 3660,
+   "third": 883,
+   "both": 200,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Georgia",
+   "gd": 1459,
+   "third": 425,
+   "both": 94,
+   "stth": 676,
+   "lic": true
+  },
+  {
+   "st": "Hawaii",
+   "gd": 116,
+   "third": 22,
+   "both": 4,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Idaho",
+   "gd": 862,
+   "third": 277,
+   "both": 54,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Illinois",
+   "gd": 1131,
+   "third": 231,
+   "both": 53,
+   "stth": 69,
+   "lic": true
+  },
+  {
+   "st": "Indiana",
+   "gd": 1472,
+   "third": 335,
+   "both": 69,
+   "stth": 2,
+   "lic": true
+  },
+  {
+   "st": "Iowa",
+   "gd": 2757,
+   "third": 270,
+   "both": 44,
+   "stth": 161,
+   "lic": true
+  },
+  {
+   "st": "Kansas",
+   "gd": 514,
+   "third": 126,
+   "both": 26,
+   "stth": 126,
+   "lic": true
+  },
+  {
+   "st": "Kentucky",
+   "gd": 1095,
+   "third": 304,
+   "both": 75,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Louisiana",
+   "gd": 673,
+   "third": 138,
+   "both": 28,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Maine",
+   "gd": 194,
+   "third": 41,
+   "both": 9,
+   "stth": 22,
+   "lic": true
+  },
+  {
+   "st": "Maryland",
+   "gd": 436,
+   "third": 123,
+   "both": 25,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Massachusetts",
+   "gd": 1009,
+   "third": 97,
+   "both": 22,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Michigan",
+   "gd": 1860,
+   "third": 435,
+   "both": 96,
+   "stth": 5,
+   "lic": true
+  },
+  {
+   "st": "Minnesota",
+   "gd": 881,
+   "third": 185,
+   "both": 44,
+   "stth": 12,
+   "lic": true
+  },
+  {
+   "st": "Mississippi",
+   "gd": 546,
+   "third": 128,
+   "both": 36,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Missouri",
+   "gd": 1285,
+   "third": 529,
+   "both": 116,
+   "stth": 442,
+   "lic": true
+  },
+  {
+   "st": "Montana",
+   "gd": 423,
+   "third": 118,
+   "both": 22,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Nebraska",
+   "gd": 373,
+   "third": 86,
+   "both": 20,
+   "stth": 44,
+   "lic": true
+  },
+  {
+   "st": "Nevada",
+   "gd": 409,
+   "third": 102,
+   "both": 15,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "New Hampshire",
+   "gd": 258,
+   "third": 43,
+   "both": 8,
+   "stth": 2,
+   "lic": true
+  },
+  {
+   "st": "New Jersey",
+   "gd": 533,
+   "third": 83,
+   "both": 16,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "New Mexico",
+   "gd": 189,
+   "third": 54,
+   "both": 8,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "New York",
+   "gd": 1304,
+   "third": 242,
+   "both": 57,
+   "stth": 8,
+   "lic": true
+  },
+  {
+   "st": "North Carolina",
+   "gd": 2055,
+   "third": 533,
+   "both": 129,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "North Dakota",
+   "gd": 298,
+   "third": 39,
+   "both": 4,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Ohio",
+   "gd": 1965,
+   "third": 496,
+   "both": 111,
+   "stth": 125,
+   "lic": true
+  },
+  {
+   "st": "Oklahoma",
+   "gd": 1023,
+   "third": 351,
+   "both": 89,
+   "stth": 30,
+   "lic": true
+  },
+  {
+   "st": "Oregon",
+   "gd": 1232,
+   "third": 323,
+   "both": 62,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Pennsylvania",
+   "gd": 1207,
+   "third": 303,
+   "both": 57,
+   "stth": 2,
+   "lic": true
+  },
+  {
+   "st": "Rhode Island",
+   "gd": 490,
+   "third": 45,
+   "both": 5,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "South Carolina",
+   "gd": 1104,
+   "third": 273,
+   "both": 55,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "South Dakota",
+   "gd": 170,
+   "third": 43,
+   "both": 11,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Tennessee",
+   "gd": 1640,
+   "third": 437,
+   "both": 101,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Texas",
+   "gd": 4915,
+   "third": 1293,
+   "both": 272,
+   "stth": 482,
+   "lic": true
+  },
+  {
+   "st": "Utah",
+   "gd": 1341,
+   "third": 497,
+   "both": 101,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Vermont",
+   "gd": 119,
+   "third": 28,
+   "both": 8,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Virginia",
+   "gd": 1054,
+   "third": 265,
+   "both": 52,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Washington",
+   "gd": 2145,
+   "third": 466,
+   "both": 67,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "West Virginia",
+   "gd": 256,
+   "third": 91,
+   "both": 13,
+   "stth": 0,
+   "lic": false
+  },
+  {
+   "st": "Wisconsin",
+   "gd": 687,
+   "third": 155,
+   "both": 28,
+   "stth": 162,
+   "lic": true
+  },
+  {
+   "st": "Wyoming",
+   "gd": 196,
+   "third": 47,
+   "both": 13,
+   "stth": 0,
+   "lic": false
+  }
+ ]
+}

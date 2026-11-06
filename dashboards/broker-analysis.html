@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Broker Analysis | Bailing Out Benji</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Merriweather:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F7FB; --ink:#0D1B3E; --text:#4B5364; --navy:#0D1B3E; --blue:#21409A; --cyan:#00B4D8; --cyan-deep:#21409A;
+  --coral:#B5533C; --amber:#C9A23A; --purple:#00B4D8; --green:#2E8B62;
+  --line:#E2E6EF; --muted:#667085; --white:#FFFFFF;
+  --shadow:0 1px 3px rgba(13,27,62,.08),0 1px 2px rgba(13,27,62,.04);
+  --c-active:#21409A; --c-state:#00B4D8; --c-cusda:#B5533C; --c-cstate:#C9A23A; --c-unlic:#8A93A6;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--text);font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--cyan-deep)}
+:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+
+/* header */
+header{background:var(--navy);color:#fff;padding:44px 0 92px}
+.draft{display:inline-flex;align-items:center;gap:8px;background:rgba(0,180,216,.14);color:#7FD8EC;border:1px solid rgba(0,180,216,.45);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:600;margin-bottom:20px}
+.draft::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--cyan)}
+h1{font-size:clamp(30px,4.6vw,48px);line-height:1.08;letter-spacing:-.02em;margin:0 0 14px;font-weight:700;max-width:820px}
+.lede{color:#C3CCE0;font-size:18px;max-width:680px;margin:0}
+.asof{color:#93A0BD;font-size:14px;margin-top:18px}
+
+/* landscape bar: the hero */
+.landscape{background:var(--white);border-radius:16px;box-shadow:var(--shadow);padding:28px;margin-top:-64px;position:relative}
+.landscape h2{margin-top:0}
+.total{font-size:15px;color:var(--muted);margin:0 0 18px}
+.total strong{color:var(--ink);font-size:22px}
+.stack{display:flex;height:56px;border-radius:10px;overflow:hidden;gap:3px}
+.stack div{min-width:4px;transition:filter .15s}
+.stack div:hover{filter:brightness(1.08)}
+.legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:18px;margin-top:22px}
+.legend .item{border-left:4px solid;padding-left:12px}
+.legend .num{font-size:28px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
+.legend .lab{font-size:14px;color:var(--muted);line-height:1.35}
+
+section{margin:56px 0}
+h2{font-size:clamp(22px,2.8vw,30px);letter-spacing:-.015em;line-height:1.15;margin:0 0 10px}
+.intro{color:var(--muted);max-width:720px;margin:0 0 24px}
+.card{background:var(--white);border-radius:16px;box-shadow:var(--shadow);padding:24px}
+.note{font-size:14px;color:var(--muted);margin:14px 0 0;max-width:760px}
+
+/* map */
+.mapgrid{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(260px,1fr);gap:24px;align-items:start}
+.metrics{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+.metrics button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:6px 14px;cursor:pointer}
+.metrics button[aria-pressed="true"]{background:var(--navy);color:#fff;border-color:var(--navy)}
+.tiles{display:grid;grid-template-columns:repeat(11,1fr);gap:4px}
+.tile{aspect-ratio:1;border:0;border-radius:6px;font:inherit;font-size:clamp(9px,1.25vw,13px);font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1;padding:0}
+.tile small{font-weight:500;font-size:.85em;opacity:.85}
+.tile[aria-pressed="true"]{outline:3px solid var(--navy);outline-offset:1px}
+.scale{display:flex;align-items:center;gap:10px;margin-top:16px;font-size:13px;color:var(--muted)}
+.scale .ramp{display:flex;flex:0 0 180px;height:10px;border-radius:5px;overflow:hidden}
+.scale .ramp span{flex:1}
+.panel h3{margin:0 0 4px;font-size:22px}
+.panel .sub{color:var(--muted);font-size:14px;margin:0 0 16px}
+.panel dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:10px 16px;font-size:15px}
+.panel dt{color:var(--muted)}
+.panel dd{margin:0;font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+.panel .rule{grid-column:1/-1;border-top:1px solid var(--line);margin:4px 0}
+.metricnote{font-size:14px;color:var(--muted);margin:12px 0 0;min-height:1.5em}
+
+/* timeline */
+.chart{width:100%;height:auto;display:block}
+.chart text{font-family:inherit;fill:var(--muted);font-size:12px}
+.chart .bar{fill:#C3D0EE}
+.chart .bar.conf{fill:var(--coral)}
+.chart g.yr:hover .bar:not(.conf),.chart g.yr:focus .bar:not(.conf){fill:#93A9DE}
+.chart g.yr{outline:none}
+.readout{font-size:15px;min-height:1.6em;margin:10px 0 0}
+.keys{display:flex;flex-wrap:wrap;gap:18px;font-size:14px;color:var(--muted);margin-bottom:10px}
+.keys span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px;background:var(--k)}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:20px}
+.fact{background:var(--paper);border-radius:12px;padding:16px}
+.fact b{display:block;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums}
+.fact span{font-size:14px;color:var(--muted)}
+
+/* split bars */
+.split{margin:0 0 26px}
+.split:last-child{margin-bottom:0}
+.split h3{font-size:17px;margin:0 0 8px}
+.sbar{display:flex;height:34px;border-radius:8px;overflow:hidden}
+.sbar div{display:flex;align-items:center;padding:0 12px;color:#fff;font-weight:600;font-size:14px;white-space:nowrap}
+.slegend{display:flex;flex-wrap:wrap;gap:6px 22px;font-size:14px;color:var(--muted);margin-top:8px}
+
+/* pipeline */
+.prow{display:grid;grid-template-columns:120px 1fr 54px;gap:12px;align-items:center;margin:8px 0;font-size:14px}
+.prow .pb{display:flex;height:20px;border-radius:5px;overflow:hidden;background:var(--paper)}
+.prow .n{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+
+/* table */
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{padding:9px 10px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:600;color:var(--muted);position:sticky;top:0;background:var(--white)}
+th button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;padding:0}
+th button[aria-sort]::after{content:" ▾"}
+th button[aria-sort="ascending"]::after{content:" ▴"}
+tbody tr:hover{background:#F6F9FC}
+#search{font:inherit;font-size:15px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;width:min(280px,100%);margin-bottom:14px}
+
+/* methodology */
+.method{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px 32px;font-size:15px}
+.method h3{font-size:16px;margin:0 0 4px}
+.method p{margin:0;color:#3A4A5E}
+.caveat{border-left:3px solid var(--coral);padding-left:12px;color:#3A4A5E}
+h1,h2,h3,.panel h3,.legend .num,.fact b,.total strong,.prow .n,.tot{color:var(--ink)}
+h1,h2{font-family:'Merriweather',Georgia,'Times New Roman',serif;font-weight:900;letter-spacing:-.01em}
+header h1{color:#fff}
+footer{color:var(--muted);font-size:14px;padding:24px 0 48px}
+
+@media (max-width:820px){
+  .mapgrid{grid-template-columns:1fr}
+  .tiles{gap:3px}
+  .tile small{display:none}
+  .prow{grid-template-columns:90px 1fr 46px}
+  .landscape{padding:20px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<style>
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+.def{border-radius:12px;padding:20px;background:var(--paper);border-top:4px solid}
+.def h3{margin:0 0 6px;font-size:18px}
+.def p{margin:0;color:#3A4A5E;font-size:15px}
+.def .who{margin-top:10px;font-size:14px;color:var(--muted)}
+.siterow{display:grid;grid-template-columns:170px 1fr 70px;gap:14px;align-items:center;margin:10px 0}
+.siterow .nm{font-weight:600;font-size:15px;line-height:1.2}
+.siterow .nm small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+.siterow .bar{display:flex;height:30px;border-radius:7px;overflow:hidden}
+.siterow .bar div{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden}
+.siterow .tot{text-align:right;font-weight:600;font-variant-numeric:tabular-nums}
+.grouplab{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:22px 0 4px}
+.grouplab:first-of-type{margin-top:4px}
+select{font:inherit;font-size:15px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--white);color:var(--ink);margin-bottom:16px}
+.matrix td,.matrix th{text-align:center}
+.matrix td:first-child,.matrix th:first-child{text-align:left}
+.matrix td.self{background:var(--paper);color:var(--muted)}
+@media (max-width:820px){.siterow{grid-template-columns:110px 1fr 52px;gap:10px}.siterow .bar div{font-size:0}}
+</style>
+<script>if(window.self!==window.top)document.documentElement.classList.add("embedded")</script>
+<style>.embedded header h1,.embedded header .lede{display:none}</style>
+<style>
+.grp{margin:0 0 22px}.grp:last-child{margin:0}
+.grp h3{font-size:16px;margin:0 0 8px}
+.prow .pb .seg{height:100%}
+.sbar100{display:flex;height:28px;border-radius:7px;overflow:hidden}
+.sbar100 div{display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:600;white-space:nowrap;overflow:hidden}
+.def{border-radius:12px;padding:20px;background:var(--paper);border-top:4px solid var(--cyan)}
+.def p{margin:0;color:#3A4A5E}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+ <div class="draft">Preview: license audit in progress, figures will change</div>
+ <h1>Who are the puppy brokers?</h1>
+ <p class="lede">A look at the brokers in Bailing Out Benji’s research: the middlemen who buy puppies from breeders and resell them to pet stores and online buyers.</p>
+ <p class="asof">Pet store connections documented 2024 to 2026 · Data as of <span id="asof">November 2, 2026</span> · Shown as totals only</p>
+</div></header>
+<main class="wrap">
+ <div class="landscape">
+  <h2>What is a puppy broker?</h2>
+  <div class="def"><p>A broker is a third party that handles the sale for the breeder. Brokers buy puppies from breeders, often several at a time, and resell them to pet stores or directly to buyers online. When a broker is involved, it can be harder for buyers to trace a puppy back to the breeder who raised it.</p></div>
+ </div>
+ <section><h2>The big picture</h2>
+  <div class="card"><p class="total"><strong id="grand"></strong> active brokers tracked, grouped by their current license status</p>
+  <div class="stack" id="stack" role="img"></div><div class="legend" id="legend"></div>
+  <p class="note caveat" style="margin-top:20px">These are the brokers BOB has documented so far. Most of what we know comes from health certificates and public records, so the true numbers are likely higher.</p></div></section>
+ <section><h2>A few brokers, many stores</h2>
+  <p class="intro">Most brokers supply only a handful of stores, but a small group reaches a large share of the pet store market.</p>
+  <div class="card"><div class="facts" id="confacts"></div>
+  <h3 style="font-size:16px;margin:4px 0 8px">Brokers by number of pet stores supplied</h3><div id="dist"></div></div></section>
+ <section><h2>Puppies on the move</h2>
+  <p class="intro">Brokers are concentrated in a few states, but the stores they supply are spread across the country.</p>
+  <div class="card"><div class="facts" id="movefacts"></div>
+  <div class="tablewrap"><table id="tbl"></table></div>
+  <p class="note">“Stores supplied” counts each pet store once per state of broker, for connections documented from 2024 to 2026.</p></div></section>
+ <section><h2>State by state</h2>
+  <p class="intro">Choose a measure, then select a state to see its brokers. Counts under five are shown as “&lt;5”.</p>
+  <div class="mapgrid">
+      <div class="card"><div class="metrics" id="metrics" role="group" aria-label="Map measure"></div><div class="tiles" id="tiles"></div>
+        <div class="scale"><span id="scaleLo"></span><div class="ramp" id="ramp"></div><span id="scaleHi"></span></div><p class="metricnote" id="metricnote"></p></div>
+      <div class="card panel" id="panel" aria-live="polite"></div></div></section>
+ <section><h2>How brokers sell</h2>
+  <div class="card"><div class="facts" id="chanfacts" style="margin:0"></div>
+  <p class="note" id="mixnote"></p></div></section>
+ <section><h2>What USDA inspections show</h2>
+  <div class="card"><div class="facts" id="violfacts" style="margin:0"></div>
+  <p class="note">Brokers often keep few animals on site, so they may be inspected less often than breeders. Only USDA inspection findings are counted.</p></div></section>
+ <section><h2>How we counted</h2><div class="card method">
+  <div><h3>Which brokers</h3><p>Brokers in BOB’s research database who are currently active: those with an active USDA or state license, those with no license found who are documented selling, and former licensees documented selling to pet stores or online in the last three years. Brokers who also or only sell cats are included. Records still under review are left out.</p></div>
+  <div><h3>Pet store connections</h3><p>Sales to pet stores documented in 2024, 2025, or 2026, mostly from health certificates (CVIs) and public records. A store counts once per broker no matter how many shipments it received.</p></div>
+  <div><h3>USDA violations</h3><p>A broker counts as cited if a USDA inspection in the past five years found at least one violation. Serious means at least one direct or critical violation.</p></div>
+  <div><h3>Totals only</h3><p>This page reports totals and does not identify individual brokers. Broker profiles are available in BOB’s broker directory.</p></div>
+ </div></section>
+</main>
+<footer><div class="wrap">Bailing Out Benji · Data from BOB’s research database, USDA inspection reports, and health certificate records.</div></footer>
+<script>(async function(){let D={"total":371,"cats":{"state":122,"active":173,"unlic":46,"cusda":30},"nSel":118,"nStores":444,"top10":348,"dist":[29,32,26,14,17],"links":2226,"cross":2143,"storeStates":40,"home":[["Ohio",96,13,173],["Missouri",51,33,298],["Iowa",28,15,235],["Pennsylvania",26,5,10],["Indiana",22,13,131],["Florida",22,3,22],["New York",13,2,6],["Illinois",11,0,0],["Wisconsin",11,3,15],["California",11,0,0]],"selMix":{"active":86,"unlic":1,"state":6,"cusda":25},"onl":78,"both":22,"actN":173,"actViol":57,"actSer":6,"nCat":19,"states":[{"st":"Ohio","n":96,"state":74,"active":20,"sel":13,"v":11,"unlic":1,"cusda":1,"reach":173},{"st":"South Dakota","n":3,"active":2,"v":1,"sel":2,"cusda":1,"reach":2},{"st":"Missouri","n":51,"active":35,"sel":33,"v":3,"cusda":6,"state":9,"unlic":1,"reach":298},{"st":"Iowa","n":28,"active":18,"sel":15,"v":5,"cusda":8,"unlic":1,"state":1,"reach":235},{"st":"Indiana","n":22,"active":18,"sel":13,"v":3,"cusda":1,"state":2,"unlic":1,"reach":131},{"st":"Pennsylvania","n":26,"active":8,"v":6,"state":17,"cusda":1,"sel":5,"reach":10},{"st":"Texas","n":8,"active":5,"v":2,"unlic":3,"reach":0},{"st":"Florida","n":22,"unlic":10,"sel":3,"active":12,"v":8,"reach":22},{"st":"Illinois","n":11,"state":7,"active":3,"v":1,"unlic":1,"reach":0},{"st":"Wisconsin","n":11,"state":6,"sel":3,"cusda":2,"unlic":2,"active":1,"v":1,"reach":15},{"st":"Arkansas","n":7,"active":5,"sel":3,"v":0,"cusda":1,"unlic":1,"reach":8},{"st":"South Carolina","n":1,"unlic":1,"reach":0},{"st":"Kansas","n":10,"cusda":2,"sel":9,"active":7,"v":3,"unlic":1,"reach":63},{"st":"New York","n":13,"unlic":3,"state":1,"active":9,"v":5,"sel":2,"reach":6},{"st":"Mississippi","n":1,"active":1,"v":1,"reach":0},{"st":"Michigan","n":5,"unlic":1,"active":4,"v":1,"reach":0},{"st":"Nebraska","n":6,"active":3,"sel":3,"v":0,"state":3,"reach":82},{"st":"Oklahoma","n":9,"active":5,"sel":7,"v":2,"unlic":1,"cusda":2,"state":1,"reach":123},{"st":"California","n":11,"unlic":9,"active":2,"v":0,"reach":0},{"st":"New Jersey","n":2,"active":2,"v":0,"sel":1,"reach":4},{"st":"North Carolina","n":3,"cusda":3,"sel":3,"reach":5},{"st":"Idaho","n":1,"unlic":1,"reach":0},{"st":"Delaware","n":1,"active":1,"v":1,"reach":0},{"st":"West Virginia","n":1,"active":1,"v":0,"reach":0},{"st":"Connecticut","n":2,"cusda":1,"sel":1,"active":1,"v":1,"reach":1},{"st":"Minnesota","n":6,"unlic":2,"active":4,"sel":1,"v":1,"reach":14},{"st":"Georgia","n":1,"unlic":1,"reach":0},{"st":"Washington","n":2,"active":2,"v":0,"reach":0},{"st":"New Hampshire","n":1,"unlic":1,"reach":0},{"st":"Kentucky","n":2,"unlic":1,"active":1,"v":0,"reach":0},{"st":"Colorado","n":2,"active":1,"v":1,"unlic":1,"reach":0},{"st":"Montana","n":1,"active":1,"v":0,"reach":0},{"st":"Tennessee","n":2,"active":1,"v":0,"unlic":1,"reach":0},{"st":"Virginia","n":1,"cusda":1,"sel":1,"reach":1}],"asOf":"November 6, 2026"};try{const r=await fetch('https://research836.github.io/bob-dashboards/data/brokers.json',{cache:'no-cache'});if(r.ok)D=await r.json();}catch(err){}
+try{const a=document.getElementById('asof');if(a&&D.asOf)a.textContent=D.asOf;}catch(err){}
+
+const fmt=n=>n.toLocaleString('en-US'), pct=(a,b)=>b?Math.round(100*a/b)+'%':'n/a', sup=n=>!n?'0':n<5?'<5':fmt(n);
+const CAT=[{k:'active',l:'Active USDA license',c:'var(--c-active)'},{k:'state',l:'State license only',c:'var(--c-state)'},{k:'cusda',l:'USDA license ended, still selling',c:'var(--c-cusda)'},{k:'cstate',l:'State license ended, still selling',c:'var(--c-cstate)'},{k:'unlic',l:'No license found',c:'var(--c-unlic)'}];
+function stack(el,obj,total,legendEl){const s=document.getElementById(el);s.setAttribute('aria-label',CAT.map(m=>`${m.l}: ${fmt(obj[m.k]||0)}`).join('; '));
+ CAT.forEach(m=>{const n=obj[m.k]||0;if(!n)return;const d=document.createElement('div');d.style.flex=n;d.style.background=m.c;d.title=`${m.l}: ${fmt(n)}`;s.appendChild(d);
+ document.getElementById(legendEl).insertAdjacentHTML('beforeend',`<div class="item" style="border-color:${m.c}"><div class="num">${fmt(n)}</div><div class="lab">${m.l} (${pct(n,total)})</div></div>`)});}
+function bars(el,rows,color,lab){const max=Math.max(...rows.map(r=>r[1]),1);document.getElementById(el).innerHTML=rows.map(([n,c,txt])=>`<div class="prow"><span>${n}</span><div class="pb"><div class="seg" style="width:${100*c/max}%;background:${color}"></div></div><span class="n">${txt||fmt(c)}</span></div>`).join('');}
+function table(el,cols,rows,sortK){let k=sortK,dir=-1;const T=document.getElementById(el);
+ function draw(){const r=[...rows].sort((a,b)=>{const x=cols.find(c=>c.k===k).v(a),y=cols.find(c=>c.k===k).v(b);return ((x??-1)>(y??-1)?1:(x??-1)<(y??-1)?-1:0)*dir});
+  T.innerHTML='<thead><tr>'+cols.map(c=>`<th scope="col"><button type="button" data-k="${c.k}" ${c.k===k?`aria-sort="${dir>0?'ascending':'descending'}"`:''}>${c.l}</button></th>`).join('')+'</tr></thead><tbody>'+r.map(x=>'<tr>'+cols.map(c=>`<td>${c.f(x)}</td>`).join('')+'</tr>').join('')+'</tbody>';
+  T.querySelectorAll('th button').forEach(b=>b.onclick=()=>{const nk=b.dataset.k;dir=nk===k?-dir:(nk==='st'?1:-1);k=nk;draw();});}
+ draw();}
+
+document.getElementById('grand').textContent=fmt(D.total); stack('stack',D.cats,D.total,'legend');
+document.getElementById('confacts').innerHTML=`<div class="fact"><b>${fmt(D.nSel)}</b><span>brokers documented selling to pet stores</span></div><div class="fact"><b>${fmt(D.nStores)}</b><span>pet stores they supplied</span></div><div class="fact"><b>${pct(D.top10,D.nStores)}</b><span>of those stores were supplied by just 10 brokers</span></div>`;
+const DL=['1 store','2 to 4 stores','5 to 19 stores','20 to 49 stores','50 or more stores'];
+bars('dist',D.dist.map((n,i)=>[DL[i],n,fmt(n)+' brokers']),'var(--blue)');
+document.querySelectorAll('#dist .prow').forEach(r=>r.style.gridTemplateColumns='140px 1fr 90px');
+document.getElementById('movefacts').innerHTML=`<div class="fact"><b>${pct(D.cross,D.links)}</b><span>of broker-to-store connections cross state lines</span></div><div class="fact"><b>${D.storeStates}</b><span>states where these brokers’ pet store customers are located</span></div>`;
+const ABBR={Alabama:'AL',Alaska:'AK',Arizona:'AZ',Arkansas:'AR',California:'CA',Colorado:'CO',Connecticut:'CT',Delaware:'DE',Florida:'FL',Georgia:'GA',Hawaii:'HI',Idaho:'ID',Illinois:'IL',Indiana:'IN',Iowa:'IA',Kansas:'KS',Kentucky:'KY',Louisiana:'LA',Maine:'ME',Maryland:'MD',Massachusetts:'MA',Michigan:'MI',Minnesota:'MN',Mississippi:'MS',Missouri:'MO',Montana:'MT',Nebraska:'NE',Nevada:'NV','New Hampshire':'NH','New Jersey':'NJ','New Mexico':'NM','New York':'NY','North Carolina':'NC','North Dakota':'ND',Ohio:'OH',Oklahoma:'OK',Oregon:'OR',Pennsylvania:'PA','Rhode Island':'RI','South Carolina':'SC','South Dakota':'SD',Tennessee:'TN',Texas:'TX',Utah:'UT',Vermont:'VT',Virginia:'VA',Washington:'WA','West Virginia':'WV',Wisconsin:'WI',Wyoming:'WY'};
+const GRID={AK:[0,0],ME:[10,0],VT:[9,1],NH:[10,1],WA:[0,2],ID:[1,2],MT:[2,2],ND:[3,2],MN:[4,2],WI:[5,2],MI:[7,2],NY:[8,2],RI:[9,2],MA:[10,2],
+OR:[0,3],NV:[1,3],WY:[2,3],SD:[3,3],IA:[4,3],IL:[5,3],IN:[6,3],OH:[7,3],PA:[8,3],NJ:[9,3],CT:[10,3],
+CA:[0,4],UT:[1,4],CO:[2,4],NE:[3,4],MO:[4,4],KY:[5,4],WV:[6,4],VA:[7,4],MD:[8,4],DE:[9,4],
+AZ:[1,5],NM:[2,5],KS:[3,5],AR:[4,5],TN:[5,5],NC:[6,5],SC:[7,5],
+OK:[3,6],LA:[4,6],MS:[5,6],AL:[6,6],GA:[7,6],HI:[0,7],TX:[3,7],FL:[8,7]};
+const RAMPS={cyan:['#E6ECF8','#C3D0EE','#93A9DE','#5F7FC9','#3456AE','#21409A'],
+ purple:['#E0F6FB','#B3E9F4','#7FD8EC','#40C5E2','#00A3C4','#007F99'],
+ coral:['#F7E6E1','#ECC5B9','#DCA08E','#C97A64','#B5533C','#8E3F2D'],
+ slate:['#EEF0F4','#D6DAE2','#B6BCC9','#8A93A6','#667085','#4B5364']};
+
+function stateMap(rows,METRICS,panelFn,start){
+ const BY={};Object.keys(ABBR).forEach(n=>BY[n]={st:n});rows.forEach(r=>{if(ABBR[r.st])BY[r.st]=Object.assign({st:r.st},r)});
+ let metric=METRICS[0],selected=start;const mEl=document.getElementById('metrics'),tiles=document.getElementById('tiles');
+ METRICS.forEach(m=>{const b=document.createElement('button');b.type='button';b.textContent=m.label;b.setAttribute('aria-pressed',m===metric);
+  b.onclick=()=>{metric=m;[...mEl.children].forEach(x=>x.setAttribute('aria-pressed',x===b));draw();};mEl.appendChild(b);});
+ Object.entries(ABBR).forEach(([name,ab])=>{const [c,r]=GRID[ab];const t=document.createElement('button');t.type='button';t.className='tile';t.style.gridColumn=c+1;t.style.gridRow=r+1;t.dataset.st=name;
+  t.onclick=()=>{selected=name;draw();panel();};tiles.appendChild(t);});
+ function draw(){const vals=Object.values(BY).map(metric.val).filter(v=>v!=null&&v>0),max=Math.max(...vals,1),ramp=RAMPS[metric.ramp];
+  const bk=v=>v==null||v<=0?null:Math.min(5,Math.floor((metric.rate?v/max:Math.sqrt(v)/Math.sqrt(max))*6));
+  [...tiles.children].forEach(t=>{const s=BY[t.dataset.st],v=metric.val(s),b=bk(v);t.style.background=b==null?'#F4F6F9':ramp[b];t.style.color=b!=null&&b>=3?'#fff':'var(--ink)';
+   t.innerHTML=`${ABBR[s.st]}<small>${metric.show(s)}</small>`;t.setAttribute('aria-label',`${s.st}: ${metric.show(s)} ${metric.label.toLowerCase()}`);t.setAttribute('aria-pressed',s.st===selected);});
+  document.getElementById('ramp').innerHTML=ramp.map(c=>`<span style="background:${c}"></span>`).join('');
+  document.getElementById('scaleLo').textContent=metric.rate?'Lower':'Fewer';document.getElementById('scaleHi').textContent=metric.rate?'Higher':'More ('+fmt(Math.round(max))+')';
+  document.getElementById('metricnote').textContent=metric.note;}
+ function panel(){document.getElementById('panel').innerHTML=panelFn(BY[selected]);}
+ draw();panel();}
+
+const g=(s,k)=>s[k]||0;
+stateMap(D.states,[
+ {label:'Brokers tracked',ramp:'cyan',val:s=>g(s,'n'),show:s=>sup(g(s,'n')),note:'All active brokers BOB has documented in the state.'},
+ {label:'Active USDA',ramp:'cyan',val:s=>g(s,'active'),show:s=>sup(g(s,'active')),note:'Brokers holding an active USDA license.'},
+ {label:'USDA license ended',ramp:'coral',val:s=>g(s,'cusda'),show:s=>sup(g(s,'cusda')),note:'Brokers whose USDA license was cancelled, suspended, or revoked.'},
+ {label:'Selling to pet stores',ramp:'cyan',val:s=>g(s,'sel'),show:s=>sup(g(s,'sel')),note:'Brokers based in the state documented selling to pet stores, 2024 to 2026.'},
+ {label:'Stores supplied',ramp:'cyan',val:s=>g(s,'reach'),show:s=>sup(g(s,'reach')),note:'Pet stores supplied by brokers based in the state, 2024 to 2026. Most of these stores are in other states.'}],
+ s=>`<h3>${s.st}</h3><p class="sub">${sup(g(s,'n'))} brokers tracked</p><dl>
+  <dt>Active USDA license</dt><dd>${sup(g(s,'active'))}</dd><dt>USDA license has ended</dt><dd>${sup(g(s,'cusda'))}</dd><dt>State license only</dt><dd>${sup(g(s,'state'))}</dd><dt>No license found</dt><dd>${sup(g(s,'unlic'))}</dd>
+  <div class="rule"></div><dt>Selling to pet stores</dt><dd>${sup(g(s,'sel'))}</dd><dt>Pet stores supplied</dt><dd>${sup(g(s,'reach'))}</dd></dl>`,'Missouri');
+
+table('tbl',[{k:'st',l:'Broker home state',v:r=>r[0],f:r=>r[0]},{k:'n',l:'Brokers tracked',v:r=>r[1],f:r=>sup(r[1])},{k:'s',l:'Selling to pet stores',v:r=>r[2],f:r=>sup(r[2])},{k:'r',l:'Stores supplied',v:r=>r[3],f:r=>sup(r[3])}],D.home,'n');
+document.getElementById('chanfacts').innerHTML=`<div class="fact"><b>${fmt(D.nSel)}</b><span>brokers sell to pet stores</span></div><div class="fact"><b>${fmt(D.onl)}</b><span>sell through puppy websites</span></div><div class="fact"><b>${fmt(D.both)}</b><span>do both</span></div>`;
+const m=D.selMix; document.getElementById('mixnote').textContent=`Of the ${fmt(D.nSel)} brokers selling to pet stores, ${fmt(m.active||0)} hold an active USDA license and ${fmt(m.cusda||0)} are former USDA licensees whose license has since ended.`;
+document.getElementById('violfacts').innerHTML=`<div class="fact"><b>${pct(D.actViol,D.actN)}</b><span>of active USDA brokers (${fmt(D.actViol)} of ${fmt(D.actN)}) were cited in the past five years</span></div><div class="fact"><b>${sup(D.actSer)}</b><span>were cited for a serious (direct or critical) violation</span></div>`;
+
+})();</script>
+<script>(function(){function s(){var h=Math.ceil(document.body.getBoundingClientRect().height);try{if(window.frameElement)window.frameElement.style.height=h+'px'}catch(e){}try{parent.postMessage({type:'bob-dash-height',height:h},'*')}catch(e){}}addEventListener('load',s);addEventListener('resize',s);if(window.ResizeObserver)new ResizeObserver(s).observe(document.body);})();</script>
+</body>
+</html>
